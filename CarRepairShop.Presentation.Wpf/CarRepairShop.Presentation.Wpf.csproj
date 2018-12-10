@@ -75,6 +75,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\AddOrderControl.xaml.cs">
+      <DependentUpon>AddOrderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssignMechanicControl.xaml.cs">
+      <DependentUpon>AssignMechanicControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AddOrderViewModel.cs" />
+    <Compile Include="ViewModels\AssignMechanicViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
@@ -111,10 +119,24 @@
     <Resource Include="appIcon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\AddOrderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AssignMechanicControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarRepairShop.Wpf\CarRepairShop.Wpf.csproj">
+      <Project>{ef56191c-d60c-4f75-b527-560005adb7d4}</Project>
+      <Name>CarRepairShop.Wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
