@@ -32,7 +32,7 @@ from ExpandOrders
 where price is null;
 go
 
-create  or alter function MonthNameToNumber(@monthName nvarchar(10))
+create or alter function MonthNameToNumber(@monthName nvarchar(10))
 returns int as
 	begin
 		declare @number as int;
