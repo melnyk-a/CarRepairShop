@@ -3,16 +3,88 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSource", "DataSource", "{DD3CCB29-BB85-4478-90C0-DBAB3A29B11A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSources", "DataSources", "{DD3CCB29-BB85-4478-90C0-DBAB3A29B11A}"
 	ProjectSection(SolutionItems) = preProject
 		CreateDatabase.sql = CreateDatabase.sql
 		FillDataBase.sql = FillDataBase.sql
 		SqlQuery.sql = SqlQuery.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{571156FC-0E7B-449F-89E2-8B0B8E2D1588}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{971107DF-4821-4B7F-A136-4991E1749970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Presentation.Wpf", "CarRepairShop.Presentation.Wpf\CarRepairShop.Presentation.Wpf.csproj", "{0966C241-DCD5-4D54-91DD-033E8217FA28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{72CD5125-138D-48BA-B52B-B1009D038F5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop", "CarRepairShop\CarRepairShop.csproj", "{7546D34B-9EF2-460A-8811-1D868C811D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Wpf", "CarRepairShop.Wpf\CarRepairShop.Wpf.csproj", "{EF56191C-D60C-4F75-B527-560005ADB7D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Domain", "CarRepairShop.Domain\CarRepairShop.Domain.csproj", "{5EF8B9FC-794C-4796-BB9C-8571BAD594FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Domain.Models", "CarRepairShop.Domain.Models\CarRepairShop.Domain.Models.csproj", "{D411CD71-20E4-42B8-A051-55FCE8E22724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Data", "CarRepairShop.Data\CarRepairShop.Data.csproj", "{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Data.SqlClient", "CarRepairShop.Data.SqlClient\CarRepairShop.Data.SqlClient.csproj", "{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Data.Stub", "CarRepairShop.Data.Stub\CarRepairShop.Data.Stub.csproj", "{F53F0BAB-4E5E-4513-9C45-588B68577BCF}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0966C241-DCD5-4D54-91DD-033E8217FA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0966C241-DCD5-4D54-91DD-033E8217FA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0966C241-DCD5-4D54-91DD-033E8217FA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0966C241-DCD5-4D54-91DD-033E8217FA28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7546D34B-9EF2-460A-8811-1D868C811D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7546D34B-9EF2-460A-8811-1D868C811D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7546D34B-9EF2-460A-8811-1D868C811D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7546D34B-9EF2-460A-8811-1D868C811D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF56191C-D60C-4F75-B527-560005ADB7D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF56191C-D60C-4F75-B527-560005ADB7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF56191C-D60C-4F75-B527-560005ADB7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF56191C-D60C-4F75-B527-560005ADB7D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF8B9FC-794C-4796-BB9C-8571BAD594FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF8B9FC-794C-4796-BB9C-8571BAD594FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF8B9FC-794C-4796-BB9C-8571BAD594FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF8B9FC-794C-4796-BB9C-8571BAD594FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D411CD71-20E4-42B8-A051-55FCE8E22724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D411CD71-20E4-42B8-A051-55FCE8E22724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D411CD71-20E4-42B8-A051-55FCE8E22724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D411CD71-20E4-42B8-A051-55FCE8E22724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F53F0BAB-4E5E-4513-9C45-588B68577BCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F53F0BAB-4E5E-4513-9C45-588B68577BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F53F0BAB-4E5E-4513-9C45-588B68577BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F53F0BAB-4E5E-4513-9C45-588B68577BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0966C241-DCD5-4D54-91DD-033E8217FA28} = {971107DF-4821-4B7F-A136-4991E1749970}
+		{7546D34B-9EF2-460A-8811-1D868C811D36} = {72CD5125-138D-48BA-B52B-B1009D038F5A}
+		{EF56191C-D60C-4F75-B527-560005ADB7D4} = {72CD5125-138D-48BA-B52B-B1009D038F5A}
+		{5EF8B9FC-794C-4796-BB9C-8571BAD594FD} = {571156FC-0E7B-449F-89E2-8B0B8E2D1588}
+		{D411CD71-20E4-42B8-A051-55FCE8E22724} = {571156FC-0E7B-449F-89E2-8B0B8E2D1588}
+		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4} = {96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}
+		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E} = {96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}
+		{F53F0BAB-4E5E-4513-9C45-588B68577BCF} = {96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFA85E51-DE1A-46D3-8375-88B770DB22E7}
