@@ -11,6 +11,33 @@
                         <controls:AddOrderControl/>
                     </DataTemplate>
                 </ResourceDictionary>
+
+                <ResourceDictionary>
+                    <ControlTemplate x:Key="ErrorTemplate" TargetType="{x:Type Control}">
+                        <Grid>
+                            <Border Background="#11FF0000" BorderBrush="#FFFF0000" BorderThickness="1" IsHitTestVisible="False"/>
+                            <Polygon 
+            Fill="#FFFF0000" 
+            Points="0,0 10,0 10,10" 
+            HorizontalAlignment="Right">
+                                <Polygon.ToolTip>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Polygon.ToolTip>
+                            </Polygon>
+                            <AdornedElementPlaceholder x:Name="adorner"/>
+                        </Grid>
+                    </ControlTemplate>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}"/>
+                    </Style>
+
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

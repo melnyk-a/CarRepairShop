@@ -11,7 +11,7 @@ namespace CarRepairShop.Wpf.ViewModels
     public abstract class ViewModel : INotifyPropertyChanged
     {
         private readonly Type currentType;
-        private readonly PropertyInfo[] properties;
+        protected readonly PropertyInfo[] properties;
 
         public ViewModel()
         {
