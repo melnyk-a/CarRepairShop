@@ -1,6 +1,6 @@
 ﻿namespace CarRepairShop.Data.SqlClient
 {
-    internal sealed class SqlClientOrderDataService : IOrderDataService
+    public sealed class SqlClientOrderDataService : IOrderDataService
     {
         public IOrderDataGateway OpenDataGateway()
         {
