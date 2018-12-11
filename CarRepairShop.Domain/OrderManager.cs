@@ -5,7 +5,7 @@ using CarRepairShop.Domain.Models;
 
 namespace CarRepairShop.Domain
 {
-    internal sealed class OrderManager : IOrderManager
+    public sealed class OrderManager : IOrderManager
     {
         private readonly IOrderDataService dataService;
 

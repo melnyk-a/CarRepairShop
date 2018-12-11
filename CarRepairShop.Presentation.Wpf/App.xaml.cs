@@ -13,7 +13,7 @@ namespace CarRepairShop.Presentation.Wpf
 
             container.Bind(
                 configurator => configurator
-                    .FromThisAssembly()
+                    .From("CarRepairShop.Data.SqlClient", "CarRepairShop.Domain")
                     .SelectAllClasses()
                     .BindAllInterfaces()
             );

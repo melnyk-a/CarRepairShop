@@ -128,6 +128,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarRepairShop.Data.SqlClient\CarRepairShop.Data.SqlClient.csproj">
+      <Project>{3019ccfe-e078-4fa9-8a68-5ff6e458f67e}</Project>
+      <Name>CarRepairShop.Data.SqlClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CarRepairShop.Domain.Models\CarRepairShop.Domain.Models.csproj">
+      <Project>{d411cd71-20e4-42b8-a051-55fce8e22724}</Project>
+      <Name>CarRepairShop.Domain.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarRepairShop.Domain\CarRepairShop.Domain.csproj">
       <Project>{5ef8b9fc-794c-4796-bb9c-8571bad594fd}</Project>
       <Name>CarRepairShop.Domain</Name>
