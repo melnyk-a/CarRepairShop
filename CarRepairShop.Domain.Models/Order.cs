@@ -5,7 +5,7 @@ namespace CarRepairShop.Domain.Models
     public sealed class Order
     {
         private readonly Car car;
-        private readonly Person client;
+        private readonly Client client;
         private readonly string description;
         private readonly int id;
         private readonly DateTime startDate;
@@ -14,7 +14,7 @@ namespace CarRepairShop.Domain.Models
         private Person mechanic;
         private double price;
 
-        public Order(int id, Person client, Car car, string description, DateTime startDate)
+        public Order(int id, Client client, Car car, string description, DateTime startDate)
         {
             this.id = id;
             this.car = car;
@@ -23,9 +23,14 @@ namespace CarRepairShop.Domain.Models
             this.startDate = startDate;
         }
 
+        public Order(Client client, Car car, string description, DateTime startDate) :
+            this(-1, client, car, description, startDate)
+        {
+        }
+
         public Car Car => car;
 
-        public Person Client => client;
+        public Client Client => client;
 
         public string Description => description;
 
