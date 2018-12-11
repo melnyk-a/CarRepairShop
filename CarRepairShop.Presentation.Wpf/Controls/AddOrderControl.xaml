@@ -31,20 +31,20 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" Padding="0 0 0 5" FontWeight="Bold">Personal info:</TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="0" >Name:</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="4" Grid.Column="0" >Surname:</TextBlock>
-        <TextBox Grid.Row="4" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding Path=Surname, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="6" Grid.Column="0">Phone:</TextBlock>
-        <TextBox Grid.Row="6" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="8" Grid.Column="0" Padding="0 5" FontWeight="Bold">Car details:</TextBlock>
         <TextBlock Grid.Row="10" Grid.Column="0" >Model:</TextBlock>
-        <TextBox Grid.Row="10" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="10" Grid.Column="2" Text="{Binding Path=Model, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="12" Grid.Column="0">Year:</TextBlock>
-        <TextBox Grid.Row="12" Grid.Column="3"></TextBox>
+        <TextBox Grid.Row="12" Grid.Column="3" Text="{Binding Path=Year, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="14" Grid.Column="0">Number:</TextBlock>
-        <TextBox Grid.Row="14" Grid.Column="2"></TextBox>
+        <TextBox Grid.Row="14" Grid.Column="2" Text="{Binding Path=Number, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <TextBlock Grid.Row="16" Grid.Column="0" Padding="0 5">Description:</TextBlock>
-        <TextBox Grid.Row="16" Grid.Column="2" Margin="0 5"></TextBox>
-        <Button Grid.Row="18" Grid.Column="2">Add order</Button>
+        <TextBox Grid.Row="16" Grid.Column="2" Margin="0 5" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Button Grid.Row="18" Grid.Column="2" Command="{Binding AddOrderCommand}">Add order</Button>
     </Grid>
 </UserControl>

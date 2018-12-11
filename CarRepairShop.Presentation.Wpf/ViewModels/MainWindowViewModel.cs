@@ -11,9 +11,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         
         private ITooltipMessageViewModel current;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(AddOrderViewModel addOrderViewModel)
         {
-            addOrder = new AddOrderViewModel();
+            addOrder = addOrderViewModel;
             addOrderCommand = new DelegateCommand(() => Current = addOrder);
         }
 
