@@ -78,6 +78,9 @@
     <Compile Include="Controls\AddOrderControl.xaml.cs">
       <DependentUpon>AddOrderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ITooltipMessageViewModel.cs" />
+    <Compile Include="MessageStatus.cs" />
+    <Compile Include="TooltipMessage.cs" />
     <Compile Include="ViewModels\AddOrderViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
@@ -133,6 +136,11 @@
       <Project>{ef56191c-d60c-4f75-b527-560005adb7d4}</Project>
       <Name>CarRepairShop.Wpf</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Error.png" />
+    <Resource Include="Images\Pending.png" />
+    <Resource Include="Images\Successful.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

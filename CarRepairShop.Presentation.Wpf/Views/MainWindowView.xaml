@@ -7,27 +7,54 @@
         Width="600"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0" Width="100" Command="{Binding AddOrderCommand}">Add order</Button>
-            <Button Grid.Row="2" Width="100">Assign mechanic</Button>
-            <Button Grid.Row="4" Width="100">Complete order</Button>
-            <Button Grid.Row="6" Width="100">Show report</Button>
+    <DockPanel LastChildFill="True">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Width="15">
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Successful">
+                                        <Setter Property="Source" Value="/Images/Successful.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Error">
+                                        <Setter Property="Source" Value="/images/Error.png"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Pending">
+                                        <Setter Property="Source" Value="/Images/Pending.png"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <TextBlock Text="{Binding Path=Current.TooltipMessage.Message}" Padding="5 0"/>
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Width="100" Command="{Binding AddOrderCommand}">Add order</Button>
+                <Button Grid.Row="2" Width="100">Assign mechanic</Button>
+                <Button Grid.Row="4" Width="100">Complete order</Button>
+                <Button Grid.Row="6" Width="100">Show report</Button>
+            </Grid>
+            <ContentPresenter Grid.Column="2" Margin="5" Content="{Binding Current, ValidatesOnNotifyDataErrors=False}"/>
         </Grid>
-        <ContentPresenter Grid.Column="2" Margin="5" Content="{Binding Current, ValidatesOnNotifyDataErrors=False}"/>
-    </Grid>
+
+    </DockPanel>
 </Window>
