@@ -1,5 +1,6 @@
 ﻿using CarRepairShop.Data;
 using CarRepairShop.Domain.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace CarRepairShop.Domain
@@ -15,6 +16,8 @@ namespace CarRepairShop.Domain
 
         public async Task AddOrder(Order order)
         {
+            order.StartDate = DateTime.Now;
+
             IOrderDataGateway dataGateway = dataService.OpenDataGateway();
             try
             {
