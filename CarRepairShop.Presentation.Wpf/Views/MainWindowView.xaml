@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Car Repair Shop"
         Height="450" 
-        Width="600"
+        Width="700"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <DockPanel LastChildFill="True">
@@ -49,7 +49,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" Width="100" Command="{Binding AddOrderCommand}">Add order</Button>
-                <Button Grid.Row="2" Width="100">Assign mechanic</Button>
+                <Button Grid.Row="2" Width="100" Command="{Binding AssignMechanicCommand}">Assign mechanic</Button>
                 <Button Grid.Row="4" Width="100">Complete order</Button>
                 <Button Grid.Row="6" Width="100" Command="{Binding ReportCommand}">Show report</Button>
             </Grid>

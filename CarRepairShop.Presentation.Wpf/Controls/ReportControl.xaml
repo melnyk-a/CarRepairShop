@@ -16,11 +16,11 @@
                   AlternatingRowBackground="White"
                   GridLinesVisibility="None">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Client name" Binding="{Binding Client.Name}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Car model" Binding="{Binding CarModel}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Client name" Binding="{Binding Client.Name}" Width="1*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Car model" Binding="{Binding CarModel}" Width="1*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Start date" Binding="{Binding StartDate}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Finish date" Binding="{Binding FinishDate}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
-                <DataGridTextColumn Header="Mechanic name" Binding="{Binding Mechanic.Name}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
+                <DataGridTextColumn Header="Mechanic name" Binding="{Binding Mechanic.Name}" Width="1*" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="Auto" HeaderStyle="{StaticResource CenterGridHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
