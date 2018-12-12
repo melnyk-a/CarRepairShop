@@ -1,4 +1,5 @@
-﻿using CarRepairShop.Presentation.Wpf.Views;
+﻿using CarRepairShop.Domain;
+using CarRepairShop.Presentation.Wpf.Views;
 using Ninject;
 using Ninject.Extensions.Conventions;
 using System.Windows;
@@ -16,6 +17,7 @@ namespace CarRepairShop.Presentation.Wpf
                     .From("CarRepairShop.Data.SqlClient", "CarRepairShop.Domain")
                     .SelectAllClasses()
                     .BindAllInterfaces()
+                    .ConfigureFor<OrderManager>(config => config.InSingletonScope())
             );
             return container;
         }
