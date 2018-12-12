@@ -8,23 +8,22 @@ namespace CarRepairShop.Domain.Models
         private readonly Client client;
         private readonly string description;
         private readonly int id;
-        private readonly DateTime startDate;
+        private DateTime startDate;
 
         private DateTime finishDate;
         private Person mechanic;
         private double price;
 
-        public Order(int id, Client client, Car car, string description, DateTime startDate)
+        public Order(int id, Client client, Car car, string description)
         {
             this.id = id;
             this.car = car;
             this.client = client;
             this.description = description;
-            this.startDate = startDate;
         }
 
-        public Order(Client client, Car car, string description, DateTime startDate) :
-            this(-1, client, car, description, startDate)
+        public Order(Client client, Car car, string description) :
+            this(-1, client, car, description)
         {
         }
 
@@ -54,6 +53,10 @@ namespace CarRepairShop.Domain.Models
             set => price = value;
         }
 
-        public DateTime StartDate => startDate;
+        public DateTime StartDate
+        {
+            get => startDate;
+            set => startDate = value;
+        }
     }
 }
