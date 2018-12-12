@@ -19,6 +19,8 @@ namespace CarRepairShop.Data.SqlClient
 
         private SqlConnection TryOpenConnection()
         {
+            try
+            {
                 string connectionString = ConfigurationManager
                     .ConnectionStrings["SqlConnection"]
                     .ConnectionString;
@@ -27,7 +29,13 @@ namespace CarRepairShop.Data.SqlClient
                 connection.Open();
 
                 return connection;
+            }
+            catch (SqlException ex)
+            {
+                throw new DataException(ex.Message);
+            }
         }
+
         public async Task AddOrder(Order order)
         {
             throw new NotImplementedException();

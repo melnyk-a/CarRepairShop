@@ -1,7 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using CarRepairShop.Data;
+﻿using CarRepairShop.Data;
 using CarRepairShop.Domain.Models;
+using System.Threading.Tasks;
 
 namespace CarRepairShop.Domain
 {
@@ -14,9 +13,21 @@ namespace CarRepairShop.Domain
             this.dataService = dataService;
         }
 
-        public Task AddOrder(Order order)
+        public async Task AddOrder(Order order)
         {
-            throw new NotImplementedException();
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                await dataGateway.AddOrder(order);
+            }
+            catch(DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
         }
     }
 }

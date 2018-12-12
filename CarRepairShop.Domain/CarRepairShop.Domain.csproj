@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainException.cs" />
     <Compile Include="IOrderManager.cs" />
     <Compile Include="OrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

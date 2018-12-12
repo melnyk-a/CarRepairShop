@@ -100,9 +100,15 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 Car car = new Car(model, int.Parse(year), number);
                 Order order = new Order(client, car, description, DateTime.Now);
 
-                await orderManager.AddOrder(order);
-
-                TooltipMessage = new TooltipMessage($"Order for client {name} {surname} successfully added.", MessageStatus.Successful);
+                try
+                {
+                    await orderManager.AddOrder(order);
+                    TooltipMessage = new TooltipMessage($"Order for client {name} {surname} successfully added.", MessageStatus.Successful);
+                }
+                catch(DomainException ex)
+                {
+                    TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                }
             }
         }
 
