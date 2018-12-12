@@ -34,6 +34,57 @@ namespace CarRepairShop.Domain
             }
         }
 
+        public async Task AssignMechanicAsync(Order order, Person mechanic)
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                await dataGateway.AssignMechanicAsync(order.Id, mechanic.Id);
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetFreeOrdersAsync()
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                return await dataGateway.GetFreeOrdersAsync();
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
+        public async Task<IEnumerable<Person>> GetMechanicsAsync()
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                return await dataGateway.GetMechanicsAsync();
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
         public async Task<IEnumerable<Order>> GetOrders()
         {
             IOrderDataGateway dataGateway = dataService.OpenDataGateway();

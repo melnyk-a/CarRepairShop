@@ -302,5 +302,149 @@ namespace CarRepairShop.Data.SqlClient
 
             return orders;
         }
+
+        public async Task<IEnumerable<Order>> GetFreeOrdersAsync()
+        {
+           return await Task.Run(() => GetFreeOrders());
+        }
+
+        private IEnumerable<Order> GetFreeOrders()
+        {
+            var orderDtos = new List<OrderDto>();
+
+            var command = new SqlCommand(
+                @"select Orders.Id,
+                         p1.Name as [Client name] ,
+                         p1.Surname as [Client surname],
+						 Phones.Number as [Phone],
+                         Cars.Model,
+						 Cars.Year,
+						 Cars.Number,
+                         Orders.StartDate,
+                         Orders.FinishDate,
+                         Orders.Price,
+						 Description
+                from Orders
+                inner join Cars on(Orders.CarId = Cars.Id)
+                inner join Clients on(Orders.ClientId = Clients.Id)
+                inner join Persons p1 on(Clients.PersonId = p1.Id)
+
+                inner join Phones on(Clients.PhoneId = Phones.Id)
+                where MechanicId is null",
+            Connection);
+
+            try
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var orderDto = new OrderDto
+                        {
+                            Id = (int)reader["Id"],
+                            Client = new Client(new Person(reader["Client name"].ToString(), reader["Client surname"].ToString()), reader["Phone"].ToString()),
+                            Car = new Car(reader["Model"].ToString(), Convert.ToInt16(reader["Year"]), reader["Number"].ToString()),
+                            StartDate = (DateTime)reader["StartDate"],
+                            Description = reader["Description"].ToString()
+                        };
+
+                        
+
+                        string finishDate = reader["FinishDate"].ToString();
+                        if (finishDate != string.Empty)
+                        {
+                            orderDto.FinishDate = DateTime.Parse(finishDate);
+                        }
+
+                        string price = reader["Price"].ToString();
+                        if (price != string.Empty)
+                        {
+                            orderDto.Price = double.Parse(price);
+                        }
+
+                        orderDtos.Add(orderDto);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new DataException(e.Message);
+            }
+
+            var orders = new List<Order>();
+
+            foreach (OrderDto orderDto in orderDtos)
+            {
+                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
+                {
+                    Mechanic = orderDto.Mechanic,
+                    StartDate = orderDto.StartDate,
+                    FinishDate = orderDto.FinishDate,
+                    Price = orderDto.Price
+                };
+                orders.Add(order);
+            }
+
+            return orders;
+        }
+
+        public async Task<IEnumerable<Person>> GetMechanicsAsync()
+        {
+            return await Task.Run(()=>GetMechanics());
+        }
+
+        private IEnumerable<Person> GetMechanics()
+        {
+            var mechanicsDtos = new List<MechanicDto>();
+
+            var command = new SqlCommand(
+               @"select Mechanics.id, Name, Surname
+from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
+           Connection);
+
+            try
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var mechanicDto = new MechanicDto
+                        {
+                            Id = (int)reader["Id"],
+                            Person = new Person(reader["Name"].ToString(), reader["Surname"].ToString())
+                        };
+                        mechanicsDtos.Add(mechanicDto);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new DataException(e.Message);
+            }
+
+            var mechanics = new List<Person>();
+
+            foreach (MechanicDto mechanicDto in mechanicsDtos)
+            {
+                Person mechanic = new Person(mechanicDto.Id, mechanicDto.Person.Name, mechanicDto.Person.Surname);
+                mechanics.Add(mechanic);
+            }
+
+            return mechanics;
+        }
+
+        public async Task AssignMechanicAsync(int orderId, int mechanicId)
+        {
+            await Task.Run(() =>
+            {
+                var command = new SqlCommand(
+              $@"update Orders
+                set MechanicId = {mechanicId}
+                where id = {orderId};",
+              Connection
+          );
+                command.ExecuteScalar();
+            }); 
+        }
     }
 }

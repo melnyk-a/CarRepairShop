@@ -8,5 +8,8 @@ namespace CarRepairShop.Domain
     {
         Task AddOrder(Order order);
         Task<IEnumerable<Order>> GetOrders();
+        Task<IEnumerable<Order>> GetFreeOrdersAsync();
+        Task<IEnumerable<Person>> GetMechanicsAsync();
+        Task AssignMechanicAsync(Order order, Person mechanic);
     }
 }

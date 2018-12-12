@@ -9,5 +9,8 @@ namespace CarRepairShop.Data
     {
         Task AddOrder(Order order);
         Task<IEnumerable<Order>> GetOrdersAsync();
+        Task<IEnumerable<Order>> GetFreeOrdersAsync();
+        Task<IEnumerable<Person>> GetMechanicsAsync();
+        Task AssignMechanicAsync(int orderId, int mechanicId);
     }
 }
