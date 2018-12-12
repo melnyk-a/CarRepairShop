@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Configuration;
 using System.Data;
+using System.Collections.Generic;
+using CarRepairShop.Data.SqlClient.Dtos;
 
 namespace CarRepairShop.Data.SqlClient
 {
@@ -207,6 +209,98 @@ namespace CarRepairShop.Data.SqlClient
             {
                 connection.Value.Close();
             }
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersAsync()
+        {
+            return await Task.Run(() => GetOrders());
+        }
+
+        private IEnumerable<Order> GetOrders()
+        {
+            var orderDtos = new List<OrderDto>();
+
+            var command = new SqlCommand(
+                @"select Orders.Id,
+                         p1.Name as [Client name] ,
+                         p1.Surname as [Client surname],
+						 Phones.Number as [Phone],
+                         Cars.Model,
+						 Cars.Year,
+						 Cars.Number,
+                         Orders.StartDate,
+                         Orders.FinishDate,
+                         p2.Name as [Mechanic name],
+                         p2.Surname as [Mechanic surname],
+                         Orders.Price,
+						 Description
+                from Orders
+                inner join Cars on (Orders.CarId = Cars.Id)
+                inner join Clients on (Orders.ClientId = Clients.Id)
+                inner join Persons p1 on (Clients.PersonId = p1.Id)
+				inner join Phones  on (Clients.PhoneId = Phones.Id)
+                left join Mechanics on (Orders.MechanicId = Mechanics.Id)
+                left join Persons p2 on (Mechanics.PersonId = p2.Id)",
+            Connection);
+
+            try
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var orderDto = new OrderDto
+                        {
+                            Id = (int)reader["Id"],
+                            Client = new Client(new Person(reader["Client name"].ToString(), reader["Client surname"].ToString()), reader["Phone"].ToString()),
+                            Car = new Car(reader["Model"].ToString(), Convert.ToInt16(reader["Year"]), reader["Number"].ToString()),
+                            StartDate = (DateTime)reader["StartDate"],
+                            Description = reader["Description"].ToString()
+                        };
+
+                        string mechanicName = reader["Mechanic name"].ToString();
+                        string mechanicSurname = reader["Mechanic surname"].ToString();
+                        if (mechanicName != string.Empty && mechanicSurname != string.Empty)
+                        {
+                            orderDto.Mechanic = new Person(mechanicName, mechanicSurname);
+                        }
+
+                        string finishDate = reader["FinishDate"].ToString();
+                        if (finishDate != string.Empty)
+                        {
+                            orderDto.FinishDate = DateTime.Parse(finishDate);
+                        }
+
+                        string price = reader["Price"].ToString();
+                        if (price != string.Empty)
+                        {
+                            orderDto.Price = double.Parse(price);
+                        }
+
+                        orderDtos.Add(orderDto);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new DataException(e.Message);
+            }
+
+            var orders = new List<Order>();
+
+            foreach (OrderDto orderDto in orderDtos)
+            {
+                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
+                {
+                    Mechanic = orderDto.Mechanic,
+                    StartDate = orderDto.StartDate,
+                    FinishDate = orderDto.FinishDate,
+                    Price = orderDto.Price
+                };
+                orders.Add(order);
+            }
+
+            return orders;
         }
     }
 }

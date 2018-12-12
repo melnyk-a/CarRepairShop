@@ -1,5 +1,6 @@
 ﻿using CarRepairShop.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CarRepairShop.Data
@@ -7,5 +8,6 @@ namespace CarRepairShop.Data
     public interface IOrderDataGateway : IDisposable
     {
         Task AddOrder(Order order);
+        Task<IEnumerable<Order>> GetOrdersAsync();
     }
 }

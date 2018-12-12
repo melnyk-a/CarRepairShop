@@ -1,6 +1,7 @@
 ﻿using CarRepairShop.Data;
 using CarRepairShop.Domain.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CarRepairShop.Domain
@@ -24,6 +25,23 @@ namespace CarRepairShop.Domain
                 await dataGateway.AddOrder(order);
             }
             catch(DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetOrders()
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                return await dataGateway.GetOrdersAsync();
+            }
+            catch (DataException ex)
             {
                 throw new DomainException(ex.Message);
             }
