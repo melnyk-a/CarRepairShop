@@ -1,38 +1,44 @@
 ﻿using CarRepairShop.Domain.Models;
+using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace CarRepairShop.Data.SqlClient
 {
     internal sealed class SqlClientOrderDataGateway : DisposableObject, IOrderDataGateway
     {
-        public Task AddCar(Car car)
+        private readonly Lazy<SqlConnection> connection;
+
+        public SqlClientOrderDataGateway()
         {
-            throw new System.NotImplementedException();
+            connection = new Lazy<SqlConnection>(() => TryOpenConnection());
         }
 
-        public Task AddClient(Person client, string phone)
-        {
-            throw new System.NotImplementedException();
-        }
+        private SqlConnection Connection => connection.Value;
 
-        public Task AddOrder(Order order)
+        private SqlConnection TryOpenConnection()
         {
-            throw new System.NotImplementedException();
+                string connectionString = ConfigurationManager
+                    .ConnectionStrings["SqlConnection"]
+                    .ConnectionString;
+
+                var connection = new SqlConnection(connectionString);
+                connection.Open();
+
+                return connection;
+        }
+        public async Task AddOrder(Order order)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void Dispose(bool disposing)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public bool IsCarExist(Car car)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool IsClientExist(Person client, string phone)
-        {
-            throw new System.NotImplementedException();
+            if (connection.IsValueCreated)
+            {
+                connection.Value.Close();
+            }
         }
     }
 }

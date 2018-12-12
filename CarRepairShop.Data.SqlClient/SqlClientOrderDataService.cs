@@ -4,7 +4,7 @@
     {
         public IOrderDataGateway OpenDataGateway()
         {
-            throw new System.NotImplementedException();
+            return new SqlClientOrderDataGateway();
         }
     }
 }
