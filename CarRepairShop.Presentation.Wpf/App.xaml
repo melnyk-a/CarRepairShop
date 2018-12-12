@@ -2,13 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:CarRepairShop.Presentation.Wpf.Controls"
-             xmlns:addOrderViewModel="clr-namespace:CarRepairShop.Presentation.Wpf.ViewModels">
+             xmlns:viewModels="clr-namespace:CarRepairShop.Presentation.Wpf.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <DataTemplate DataType="{x:Type addOrderViewModel:AddOrderViewModel}">
+                    <DataTemplate DataType="{x:Type viewModels:AddOrderViewModel}">
                         <controls:AddOrderControl/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ReportViewModel}">
+                        <controls:ReportControl/>
                     </DataTemplate>
                 </ResourceDictionary>
 

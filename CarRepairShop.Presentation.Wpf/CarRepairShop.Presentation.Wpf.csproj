@@ -78,11 +78,16 @@
     <Compile Include="Controls\AddOrderControl.xaml.cs">
       <DependentUpon>AddOrderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ReportControl.xaml.cs">
+      <DependentUpon>ReportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ITooltipMessageViewModel.cs" />
     <Compile Include="MessageStatus.cs" />
     <Compile Include="TooltipMessage.cs" />
     <Compile Include="ViewModels\AddOrderViewModel.cs" />
+    <Compile Include="ViewModels\DetailOrderViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
@@ -119,6 +124,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\AddOrderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ReportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
