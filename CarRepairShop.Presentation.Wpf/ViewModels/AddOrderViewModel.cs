@@ -98,7 +98,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 
                 Client client = new Client(new Person(name, surname), phone);
                 Car car = new Car(model, int.Parse(year), number);
-                Order order = new Order(client, car, description, DateTime.Now);
+                Order order = new Order(client, car, description);
 
                 try
                 {
