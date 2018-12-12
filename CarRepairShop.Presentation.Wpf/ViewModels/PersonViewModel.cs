@@ -12,5 +12,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         }
 
         public string Name => $"{person.Name} {person.Surname}";
+
+        public Person Person => person;
     }
 }
