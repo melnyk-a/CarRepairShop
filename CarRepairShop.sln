@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataSources", "DataSources"
 		CreateDatabase.sql = CreateDatabase.sql
 		FillDataBase.sql = FillDataBase.sql
 		SqlQuery.sql = SqlQuery.sql
+		StoredProcedures.sql = StoredProcedures.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}"
