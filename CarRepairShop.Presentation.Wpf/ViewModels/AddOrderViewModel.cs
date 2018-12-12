@@ -103,7 +103,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 try
                 {
                     await orderManager.AddOrder(order);
-                    TooltipMessage = new TooltipMessage($"Order for client {name} {surname} successfully added.", MessageStatus.Successful);
+                    TooltipMessage = new TooltipMessage($"Order for client {name} {surname} is successfully added.", MessageStatus.Successful);
                 }
                 catch(DomainException ex)
                 {
