@@ -6,12 +6,12 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
     internal sealed class MainWindowViewModel : ViewModel
     {
-        private readonly ITooltipMessageViewModel addOrder;
-        private readonly ITooltipMessageViewModel report;
+        private readonly ViewModel addOrder;
+        private readonly ViewModel report;
         private readonly ICommand addOrderCommand;
         private readonly ICommand reportCommand;
 
-        private ITooltipMessageViewModel current;
+        private object current;
 
         public MainWindowViewModel(AddOrderViewModel addOrderViewModel, ReportViewModel reportViewModel)
         {
@@ -21,10 +21,10 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             reportCommand = new DelegateCommand(() => Current = report);
         }
 
-        public ITooltipMessageViewModel Current
+        public object Current
         {
             get => current;
-            private set => SetProperty(ref current, value);
+            set => SetProperty(ref current, value);
         }
 
         public ICommand AddOrderCommand => addOrderCommand;
