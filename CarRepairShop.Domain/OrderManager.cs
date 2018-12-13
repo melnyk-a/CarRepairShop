@@ -29,9 +29,9 @@ namespace CarRepairShop.Domain
                 {
                     await dataGateway.AddOrder(order);
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -44,9 +44,9 @@ namespace CarRepairShop.Domain
                 {
                     await dataGateway.AssignMechanicAsync(order.Id, mechanic.Id);
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -60,9 +60,9 @@ namespace CarRepairShop.Domain
                 {
                     await dataGateway.CompleteOrderAsync(order.Id, order.FinishDate);
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -75,9 +75,9 @@ namespace CarRepairShop.Domain
                 {
                     return await dataGateway.GetFreeOrdersAsync();
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -90,9 +90,9 @@ namespace CarRepairShop.Domain
                 {
                     return await dataGateway.GetMechanicsAsync();
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -105,9 +105,9 @@ namespace CarRepairShop.Domain
                 {
                     return await dataGateway.GetOrdersAsync();
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -120,9 +120,9 @@ namespace CarRepairShop.Domain
                 {
                     return await dataGateway.GetUnompleteOrdersAsync();
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }
@@ -135,9 +135,9 @@ namespace CarRepairShop.Domain
                 {
                     await dataGateway.SetPriceAsync(order.Id, price);
                 }
-                catch (DataException ex)
+                catch (DataException e)
                 {
-                    throw new DomainException(ex.Message);
+                    throw new DomainException(e.Message);
                 }
             }
         }

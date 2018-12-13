@@ -121,9 +121,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                     TooltipMessage = new TooltipMessage($"Order for client {name} {surname} is successfully added.", MessageStatus.Successful);
                     Refresh();
                 }
-                catch (DomainException ex)
+                catch (DomainException e)
                 {
-                    TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                    TooltipMessage = new TooltipMessage(e.Message, MessageStatus.Error);
                 }
             }
         }

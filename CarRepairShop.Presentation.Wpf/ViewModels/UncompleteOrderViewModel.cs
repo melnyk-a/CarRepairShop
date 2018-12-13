@@ -86,9 +86,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 TooltipMessage = new TooltipMessage($"Order for client {client.Name} is successfully completed.", MessageStatus.Successful);
                 OnOrderCompleted();
             }
-            catch (DomainException ex)
+            catch (DomainException e)
             {
-                TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                TooltipMessage = new TooltipMessage(e.Message, MessageStatus.Error);
             }
         }
 
@@ -119,9 +119,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                     CurrentPrice = Price;
                     TooltipMessage = new TooltipMessage($"Price for client {client.Name} is successfully set.", MessageStatus.Successful);
                 }
-                catch (DomainException ex)
+                catch (DomainException e)
                 {
-                    TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                    TooltipMessage = new TooltipMessage(e.Message, MessageStatus.Error);
                 }
             }
         }

@@ -78,9 +78,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 TooltipMessage = new TooltipMessage($"Mechanic {selectedMechanic.Name} for client {client.Name} is successfully assigned.", MessageStatus.Successful);
                 OnMechanicAssigned();
             }
-            catch (DomainException ex)
+            catch (DomainException e)
             {
-                TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                TooltipMessage = new TooltipMessage(e.Message, MessageStatus.Error);
             }
         }
 
