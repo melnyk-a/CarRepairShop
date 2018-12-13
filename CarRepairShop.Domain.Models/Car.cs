@@ -1,4 +1,6 @@
-﻿namespace CarRepairShop.Domain.Models
+﻿using System;
+
+namespace CarRepairShop.Domain.Models
 {
     public sealed class Car
     {
@@ -8,6 +10,11 @@
 
         public Car(string model, int year, string number)
         {
+            if (string.IsNullOrEmpty(model) || year < 0 || string.IsNullOrEmpty(number))
+            {
+                throw new ArgumentException();
+            }
+
             this.number = number;
             this.model = model;
             this.year = year;

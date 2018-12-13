@@ -1,4 +1,6 @@
-﻿namespace CarRepairShop.Domain.Models
+﻿using System;
+
+namespace CarRepairShop.Domain.Models
 {
     public sealed class Client
     {
@@ -7,6 +9,11 @@
 
         public Client(Person person, string phone)
         {
+            if (person.Equals(0) || string.IsNullOrEmpty(phone))
+            {
+                throw new ArgumentException();
+            }
+
             this.person = person;
             this.phone = phone;
         }
