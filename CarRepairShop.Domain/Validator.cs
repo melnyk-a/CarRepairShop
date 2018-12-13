@@ -116,5 +116,26 @@ namespace CarRepairShop.Domain
             }
             return result;
         }
+
+        public IEnumerable<string> ValidatePrice(string price)
+        {
+            result.Clear();
+
+            if (IsNullOrEmpty(price))
+            {
+                result.Add("Price can't be empty.");
+            }
+            bool isParsed = double.TryParse(price, out double doublePrice);
+            if (!isParsed)
+            {
+                result.Add("Price can contain only digits");
+            }
+            if (isParsed && doublePrice < 0)
+            {
+
+                result.Add($"Price can't be less than zero");
+            }
+            return result;
+        }
     }
 }
