@@ -1,5 +1,7 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
+using CarRepairShop.Domain.Validators;
+using CarRepairShop.Presentation.Wpf.ToolTips;
 using CarRepairShop.Wpf.Attributes;
 using CarRepairShop.Wpf.Commands;
 using CarRepairShop.Wpf.ViewModels;
@@ -115,7 +117,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         }
 
 
-        protected override IEnumerable<string> GetErrors(string propertyName)
+        protected override IEnumerable<string> GetErrors(string propertyName, string propertyValue)
         {
             Validator validator = new Validator();
             IEnumerable<string> errors = new string[0];

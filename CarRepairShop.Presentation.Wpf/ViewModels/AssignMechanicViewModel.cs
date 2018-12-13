@@ -1,5 +1,6 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
+using CarRepairShop.Presentation.Wpf.ToolTips;
 using CarRepairShop.Wpf.ViewModels;
 using System;
 using System.Collections.Generic;
