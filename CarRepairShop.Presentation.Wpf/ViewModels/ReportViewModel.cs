@@ -27,7 +27,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {
-                var orders = await orderManager.GetOrders();
+                var orders = await orderManager.GetOrdersAsync();
                 foreach (Order order in orders)
                 {
                     orderViewModel.Add(new DetailOrderViewModel(order));

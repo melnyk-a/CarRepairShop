@@ -103,7 +103,7 @@ namespace CarRepairShop.Domain
             }
         }
 
-        public async Task<IEnumerable<Order>> GetOrders()
+        public async Task<IEnumerable<Order>> GetOrdersAsync()
         {
             IOrderDataGateway dataGateway = dataService.OpenDataGateway();
             try
