@@ -49,10 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidatorTest.cs" />
+    <Compile Include="ValidatorTests\ValidatePhoneTest.cs" />
+    <Compile Include="ValidatorTests\ValidatePriceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="ValidatorTests\ValidateName.Test.cs" />
+    <Compile Include="ValidatorTests\ValidateSurnameTest.cs" />
+    <Compile Include="ValidatorTests\ValidateModelTest.cs" />
+    <Compile Include="ValidatorTests\ValidateDescriptionTest.cs" />
+    <Compile Include="ValidatorTests\ValidateNumberTest.cs" />
+    <Compile Include="ValidatorTests\ValidateYearTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarRepairShop.Domain\CarRepairShop.Domain.csproj">
