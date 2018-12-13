@@ -2,11 +2,8 @@
 using CarRepairShop.Domain.Models;
 using CarRepairShop.Presentation.Wpf.ToolTips;
 using CarRepairShop.Wpf.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CarRepairShop.Presentation.Wpf.ViewModels
@@ -22,10 +19,37 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             this.orderManager = orderManager;
         }
 
+        public IEnumerable<FreeOrderViewModel> Orders => orderViewModels;
+
         public TooltipMessage TooltipMessage
         {
             get => tooltipMessage;
             set => SetProperty(ref tooltipMessage, value);
+        }
+
+        private async void FillOrderViewModel(IEnumerable<PersonViewModel> mechanics)
+        {
+            var orders = await orderManager.GetFreeOrdersAsync();
+            foreach (Order order in orders)
+            {
+                var viewModel = new FreeOrderViewModel(order, mechanics, orderManager);
+                viewModel.MessageCreated += UpdateTooltipMessage;
+                viewModel.MechanicAssigned += RemoveOrder;
+                orderViewModels.Add(viewModel);
+            }
+        }
+
+        private async Task<ObservableCollection<PersonViewModel>> GetMechanicsViewModels()
+        {
+            var mechanics = await orderManager.GetMechanicsAsync();
+            var mechanicsViewModels = new ObservableCollection<PersonViewModel>();
+
+            foreach (var mechanic in mechanics)
+            {
+                mechanicsViewModels.Add(new PersonViewModel(mechanic));
+            }
+
+            return mechanicsViewModels;
         }
 
         public async void LoadOrders()
@@ -34,37 +58,8 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {
-                var orders = await orderManager.GetFreeOrdersAsync();
-                var mechanics = await orderManager.GetMechanicsAsync();
-
-                var mechanicsViewModels = new ObservableCollection<PersonViewModel>();
-
-                foreach(var mechanic in mechanics)
-                {
-                    mechanicsViewModels.Add(new PersonViewModel(mechanic));
-                }
-
-                foreach (Order order in orders)
-                {
-                    var viewModel = new FreeOrderViewModel(order, mechanicsViewModels, orderManager);
-                    viewModel.MessageCreated += (sender, e) =>
-                      {
-                          TooltipMessage = e.Message;
-                      };
-
-                    viewModel.MechanicAssigned += (sender, e) =>
-                         {
-                             foreach(var orderViewModel in orderViewModels)
-                             {
-                                 if(orderViewModel.Order.Id == e.Order.Id)
-                                 {
-                                     orderViewModels.Remove(orderViewModel);
-                                     break;
-                                 }
-                             }
-                         };
-                    orderViewModels.Add(viewModel);
-                }
+                var mechanicsViewModels = await GetMechanicsViewModels();
+                FillOrderViewModel(mechanicsViewModels);
                 TooltipMessage = new TooltipMessage("Loaded", MessageStatus.Successful);
             }
             catch (DomainException e)
@@ -73,6 +68,23 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             }
         }
 
-        public IEnumerable<FreeOrderViewModel> Orders => orderViewModels;
+        private void RemoveOrder(object sender, OrderEvenArgs orderEvenArgs)
+        {
+            foreach (var orderViewModel in orderViewModels)
+            {
+                if (orderViewModel.Order.Id == orderEvenArgs.Order.Id)
+                {
+                    orderViewModel.MessageCreated -= UpdateTooltipMessage;
+                    orderViewModel.MechanicAssigned -= RemoveOrder;
+                    orderViewModels.Remove(orderViewModel);
+                    break;
+                }
+            }
+        }
+
+        private void UpdateTooltipMessage(object sender, TooltipMessageEventArgs messageEventArgs)
+        {
+            TooltipMessage = messageEventArgs.Message;
+        }
     }
 }
