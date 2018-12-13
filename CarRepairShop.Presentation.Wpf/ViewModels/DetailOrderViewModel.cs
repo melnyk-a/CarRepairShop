@@ -22,7 +22,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 
         public string StartDate => order.StartDate.ToShortDateString();
 
-        public string FinishDate => order.FinishDate.ToShortDateString();
+        public string FinishDate => order.FinishDate!=default(DateTime)?order.FinishDate.ToShortDateString(): string.Empty;
 
         public PersonViewModel Mechanic => mechanic;
 
