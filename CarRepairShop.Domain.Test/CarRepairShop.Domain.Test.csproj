@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderManagerTests\OrderMangerValidationCallTest.cs" />
+    <Compile Include="OrderManagerTests\ValidatorMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidatorTests\ValidatePhoneTest.cs" />
     <Compile Include="ValidatorTests\ValidatePriceTest.cs" />
@@ -62,6 +64,10 @@
     <Compile Include="ValidatorTests\ValidateYearTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CarRepairShop.Data\CarRepairShop.Data.csproj">
+      <Project>{9C06B019-71EB-4ED4-AA9A-97635A5D36C4}</Project>
+      <Name>CarRepairShop.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CarRepairShop.Domain\CarRepairShop.Domain.csproj">
       <Project>{5ef8b9fc-794c-4796-bb9c-8571bad594fd}</Project>
       <Name>CarRepairShop.Domain</Name>
