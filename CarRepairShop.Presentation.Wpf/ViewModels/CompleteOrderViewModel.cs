@@ -1,6 +1,7 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
 using CarRepairShop.Presentation.Wpf.ToolTips;
+using CarRepairShop.Presentation.Wpf.ViewModels.ViewModelFactory;
 using CarRepairShop.Wpf.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +11,17 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
     internal sealed class CompleteOrderViewModel : ViewModel, ITooltipMessageViewModel
     {
+        private readonly IViewModelFactory factory;
         private readonly IOrderManager orderManager;
         private readonly ICollection<UncompleteOrderViewModel> orderViewModels = new ObservableCollection<UncompleteOrderViewModel>();
 
         private TooltipMessage tooltipMessage;
 
-        public CompleteOrderViewModel(IOrderManager orderManager)
+        public CompleteOrderViewModel(IOrderManager orderManager, IViewModelFactory factory)
         {
             this.orderManager = orderManager;
+            this.factory = factory;
+            LoadOrders();
         }
 
         public IEnumerable<UncompleteOrderViewModel> Orders => orderViewModels;
@@ -34,7 +38,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 
             foreach (Order order in orders)
             {
-                var viewModel = new UncompleteOrderViewModel(order, orderManager);
+                var viewModel = (UncompleteOrderViewModel)factory.CreateUncompleteOrderViewModel(order);
                 viewModel.MessageCreated += UpdateTooltipMessage;
                 viewModel.OrderCompleted += RemoveOrder;
                 orderViewModels.Add(viewModel);

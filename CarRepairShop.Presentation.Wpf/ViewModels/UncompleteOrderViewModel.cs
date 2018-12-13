@@ -1,6 +1,7 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
 using CarRepairShop.Presentation.Wpf.ToolTips;
+using CarRepairShop.Presentation.Wpf.ViewModels.ViewModelFactory;
 using CarRepairShop.Wpf.Attributes;
 using CarRepairShop.Wpf.Commands;
 using CarRepairShop.Wpf.ViewModels;
@@ -15,6 +16,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
     {
         private readonly PersonViewModel client;
         private readonly ICommand completeOrderCommand;
+        private readonly IViewModelFactory factory;
         private readonly Order order;
         private readonly ICommand setPriceCommand;
         private readonly IOrderManager orderManager;
@@ -23,11 +25,12 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         private string price;
         private TooltipMessage tooltipMessage;
 
-        public UncompleteOrderViewModel(Order order, IOrderManager orderManager)
+        public UncompleteOrderViewModel(Order order, IOrderManager orderManager, IViewModelFactory factory)
         {
+            this.factory = factory;
             this.orderManager = orderManager;
             this.order = order;
-            client = new PersonViewModel(order.Client.Person);
+            client = (PersonViewModel)factory.CreatePersonViewModel(order.Client.Person);
             currentPrice = order.Price.ToString();
 
             setPriceCommand = new AsyncDelegateCommand(SetPrice, () => CanSetPrice);

@@ -1,6 +1,7 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
 using CarRepairShop.Presentation.Wpf.ToolTips;
+using CarRepairShop.Presentation.Wpf.ViewModels.ViewModelFactory;
 using CarRepairShop.Wpf.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +11,17 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
     internal sealed class ReportViewModel : ViewModel, ITooltipMessageViewModel
     {
+        private readonly IViewModelFactory factory;
         private readonly IOrderManager orderManager;
         private readonly ICollection<DetailOrderViewModel> orderViewModel = new ObservableCollection<DetailOrderViewModel>();
 
         private TooltipMessage tooltipMessage;
 
-        public ReportViewModel(IOrderManager orderManager)
+        public ReportViewModel(IOrderManager orderManager, IViewModelFactory factory)
         {
             this.orderManager = orderManager;
+            this.factory = factory;
+            LoadOrders();
         }
 
         public IEnumerable<DetailOrderViewModel> Orders => orderViewModel;
@@ -33,7 +37,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             var orders = await orderManager.GetOrdersAsync();
             foreach (Order order in orders)
             {
-                orderViewModel.Add(new DetailOrderViewModel(order));
+                orderViewModel.Add((DetailOrderViewModel)factory.CreateDetailOrderViewModel(order));
             }
         }
 

@@ -1,8 +1,9 @@
 ﻿using CarRepairShop.Domain.Models;
+using CarRepairShop.Wpf.ViewModels;
 
 namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
-    internal sealed class PersonViewModel
+    internal sealed class PersonViewModel : ViewModel
     {
         private readonly Person person;
 
