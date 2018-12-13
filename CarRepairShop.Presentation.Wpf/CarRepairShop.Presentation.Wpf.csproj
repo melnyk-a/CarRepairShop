@@ -101,6 +101,8 @@
     <Compile Include="ViewModels\PersonViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\UncompleteOrderViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelFactory\IViewModelFactory.cs" />
+    <Compile Include="ViewModels\ViewModelFactory\ViewModelFactory.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>

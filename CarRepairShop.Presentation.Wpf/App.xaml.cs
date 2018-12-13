@@ -1,5 +1,6 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Validators;
+using CarRepairShop.Presentation.Wpf.ViewModels.ViewModelFactory;
 using CarRepairShop.Presentation.Wpf.Views;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -21,6 +22,7 @@ namespace CarRepairShop.Presentation.Wpf
                     .ConfigureFor<OrderManager>(config => config.InSingletonScope())
                     .ConfigureFor<Validator>(config => config.InSingletonScope())
             );
+            container.Bind<IViewModelFactory>().To<ViewModelFactory>();
             return container;
         }
 
