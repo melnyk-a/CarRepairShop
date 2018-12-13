@@ -150,7 +150,7 @@ namespace CarRepairShop.Domain.Test
 
             var errors = validator.ValidatePhone(phone.ToString());
 
-            Assert.That(errors, Has.Some.EqualTo("Incorrect phone length."));
+            Assert.That(errors, Has.Some.EqualTo("Phone has incorrect length."));
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace CarRepairShop.Domain.Test
 
             var errors = validator.ValidateYear(input);
 
-            Assert.That(errors, Has.Some.EqualTo("Year can't be less or equal then 0."));
+            Assert.That(errors, Has.Some.EqualTo("Year can't be less or equal then zero."));
         }
 
         [Test]
@@ -242,6 +242,55 @@ namespace CarRepairShop.Domain.Test
             var errors = validator.ValidateYear(year);
 
             Assert.That(errors, Has.Some.EqualTo($"Year can't be more then {currentYear}"));
+        }
+
+
+        [Test]
+        public void ValidatePrice_IsNotNull()
+        {
+            Validator validator = new Validator();
+            object price = null;
+
+            var errors = validator.ValidatePrice((string)price);
+
+            Assert.That(errors, Has.Some.EqualTo("Price can't be empty."));
+        }
+
+        [Test]
+        public void ValidatePrice_IsNotEmpty()
+        {
+            Validator validator = new Validator();
+            string price = string.Empty;
+
+            var errors = validator.ValidatePrice(price);
+
+            Assert.That(errors, Has.Some.EqualTo("Price can't be empty."));
+        }
+
+        [Test]
+        [TestCase("   ")]
+        [TestCase("1abc")]
+        [TestCase("abc1")]
+        [TestCase("1abc1")]
+        [TestCase("abc")]
+        public void ValidatePrice_IsDigitOnly(string input)
+        {
+            Validator validator = new Validator();
+
+            var errors = validator.ValidatePrice(input);
+
+            Assert.That(errors, Has.Some.EqualTo("Price can contain only digits."));
+        }
+
+        [Test]
+        [TestCase("-5")]
+        public void ValidatePrice_IsNotLess0(string input)
+        {
+            Validator validator = new Validator();
+
+            var errors = validator.ValidatePrice(input);
+
+            Assert.That(errors, Has.Some.EqualTo("Price can't be less then zero."));
         }
     }
 }
