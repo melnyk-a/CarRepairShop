@@ -11,13 +11,15 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
     {
         private readonly IOrderManager orderManager;
         private readonly ICollection<UncompleteOrderViewModel> orderViewModels = new ObservableCollection<UncompleteOrderViewModel>();
+
         private TooltipMessage tooltipMessage;
 
         public CompleteOrderViewModel(IOrderManager orderManager)
         {
             this.orderManager = orderManager;
-        
         }
+
+        public IEnumerable<UncompleteOrderViewModel> Orders => orderViewModels;
 
         public TooltipMessage TooltipMessage
         {
@@ -25,35 +27,26 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             set => SetProperty(ref tooltipMessage, value);
         }
 
-        public async void LoadOrders()
+        private async void FillOrderViewModel()
+        {
+            var orders = await orderManager.GetUncompleteOrdersAsync();
+
+            foreach (Order order in orders)
+            {
+                var viewModel = new UncompleteOrderViewModel(order, orderManager);
+                viewModel.MessageCreated += UpdateTooltipMessage;
+                viewModel.OrderCompleted += RemoveOrder;
+                orderViewModels.Add(viewModel);
+            }
+        }
+
+        public void LoadOrders()
         {
             orderViewModels.Clear();
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {
-                var orders = await orderManager.GetUnompleteOrdersAsync();
-
-                foreach (Order order in orders)
-                {
-                    var viewModel = new UncompleteOrderViewModel(order, orderManager);
-                    viewModel.MessageCreated += (sender, e) =>
-                    {
-                        TooltipMessage = e.Message;
-                    };
-
-                    viewModel.OrderCompleted += (sender, e) =>
-                    {
-                        foreach (var orderViewModel in orderViewModels)
-                        {
-                            if (orderViewModel.Order.Id == e.Order.Id)
-                            {
-                                orderViewModels.Remove(orderViewModel);
-                                break;
-                            }
-                        }
-                    };
-                    orderViewModels.Add(viewModel);
-                }
+                FillOrderViewModel();
                 TooltipMessage = new TooltipMessage("Loaded", MessageStatus.Successful);
             }
             catch (DomainException e)
@@ -62,6 +55,23 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             }
         }
 
-        public IEnumerable<UncompleteOrderViewModel> Orders => orderViewModels;
+        private void RemoveOrder(object sender, OrderEvenArgs orderEvenArgs)
+        {
+            foreach (var orderViewModel in orderViewModels)
+            {
+                if (orderViewModel.Order.Id == orderEvenArgs.Order.Id)
+                {
+                    orderViewModel.MessageCreated -= UpdateTooltipMessage;
+                    orderViewModel.OrderCompleted -= RemoveOrder;
+                    orderViewModels.Remove(orderViewModel);
+                    break;
+                }
+            }
+        }
+
+        private void UpdateTooltipMessage(object sender, TooltipMessageEventArgs messageEventArgs)
+        {
+            TooltipMessage = messageEventArgs.Message;
+        }
     }
 }
