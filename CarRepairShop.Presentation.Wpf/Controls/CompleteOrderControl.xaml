@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <ListBox Grid.Column="2"
-                 Margin="5"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Orders}">
             <ListBox.ItemTemplate>
@@ -20,6 +19,8 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="15"/>
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="5"/>
@@ -37,11 +38,11 @@
                                    Text="$"/>
                         <TextBox Grid.Column="8"
                                  Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Grid.Column="10"
+                        <Button Grid.Column="12"
                                 Width="100"
                                 Content="Set price"
                                 Command="{Binding SetPriceCommand}"/>
-                        <Button Grid.Column="12"
+                        <Button Grid.Column="14"
                                 Width="100"
                                 Content="Complete order"
                                 Command="{Binding CompleteOrderCommand}"/>

@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="CenterErrorTemplate"
+                     TargetType="{x:Type Control}">
+        <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Border Style="{StaticResource ErrorBorder}"/>
+                <AdornedElementPlaceholder/>
+            </Grid>
+            <Image Style="{StaticResource TopWarningIcon}" 
+                   VerticalAlignment="Center" 
+                   Margin="5 0 5 0"/>
+        </StackPanel>
+    </ControlTemplate>
+    <Style TargetType="{x:Type TextBox}">
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource CenterErrorTemplate}"/>
+    </Style>
+</ResourceDictionary>

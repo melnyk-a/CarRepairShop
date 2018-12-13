@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <DataGrid ColumnWidth="*"
-                  Margin="5"
                   ItemsSource="{Binding Orders}"
                   AutoGenerateColumns="False"
                   RowBackground="LightGray"

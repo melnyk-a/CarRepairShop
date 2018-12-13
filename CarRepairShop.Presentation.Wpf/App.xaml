@@ -6,7 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ResourceDictionaries/ErrorTemplate.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/ErrorBorderStyle.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/WarningStyle.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/CenterErrorTemplate.xaml"/>
+                <ResourceDictionary Source="ResourceDictionaries/TopErrorTemplate.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/IconStyle.xaml"/>
                 <ResourceDictionary Source="ResourceDictionaries/HeaderStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>

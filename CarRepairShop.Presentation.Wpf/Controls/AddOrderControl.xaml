@@ -7,6 +7,9 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -31,24 +34,27 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.Column="0"
-                   Padding="0 0 0 5"
                    FontWeight="Bold"
-                   Text="Personal info:"/>
+                   Text="Personal info:"
+                   Margin=" 0 2"/>
         <TextBlock Grid.Row="2"
                    Grid.Column="0"
-                   Text="Name:"/>
+                   Text="Name:"
+                   Margin="0 2"/>
         <TextBox Grid.Row="2"
                  Grid.Column="2"
                  Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="4"
                    Grid.Column="0"
-                   Text="Surname:"/>
+                   Text="Surname:"
+                   Margin="0 2"/>
         <TextBox Grid.Row="4"
                  Grid.Column="2"
                  Text="{Binding Path=Surname, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="6"
                    Grid.Column="0"
-                   Text="Phone:"/>
+                   Text="Phone:"
+                   Margin="0 2"/>
         <TextBox Grid.Row="6"
                  Grid.Column="2"
                  Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
@@ -59,19 +65,22 @@
                    Text="Car details:"/>
         <TextBlock Grid.Row="10"
                    Grid.Column="0"
-                   Text="Model"/>
+                   Text="Model"
+                   Margin="0 2"/>
         <TextBox Grid.Row="10"
                  Grid.Column="2"
                  Text="{Binding Path=Model, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="12"
                    Grid.Column="0"
-                   Text="Year:"/>
+                   Text="Year:"
+                  Margin="0 2"/>
         <TextBox Grid.Row="12"
-                 Grid.Column="3"
+                 Grid.Column="2"
                  Text="{Binding Path=Year, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="14"
                    Grid.Column="0"
-                   Text="Number:"/>
+                   Text="Number:"
+                   Margin="0 2"/>
         <TextBox Grid.Row="14"
                  Grid.Column="2"
                  Text="{Binding Path=Number, UpdateSourceTrigger=PropertyChanged}"/>
@@ -81,7 +90,8 @@
         <TextBox Grid.Row="16"
                  Grid.Column="2"
                  Margin="0 5"
-                 Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"
+                 Validation.ErrorTemplate="{StaticResource TopErrorTemplate}"/>
         <Button Grid.Row="18"
                 Grid.Column="2"
                 Command="{Binding AddOrderCommand}"

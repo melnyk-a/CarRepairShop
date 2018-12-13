@@ -11,7 +11,7 @@
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <Image Style="{StaticResource tooltipIcon}"/>
+                    <Image Style="{StaticResource TooltipIcon}"/>
                     <TextBlock Padding="5 0"
                                Text="{Binding Path=Current.TooltipMessage.Message}"/>
                 </StackPanel>
