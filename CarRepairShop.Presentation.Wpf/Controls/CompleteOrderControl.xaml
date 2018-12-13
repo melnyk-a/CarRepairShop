@@ -36,7 +36,7 @@
                                    FontWeight="Bold"
                                    Text="$"/>
                         <TextBox Grid.Column="8"
-                                 Text="{Binding EnteredPrice, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
                         <Button Grid.Column="10"
                                 Width="100"
                                 Content="Set price"

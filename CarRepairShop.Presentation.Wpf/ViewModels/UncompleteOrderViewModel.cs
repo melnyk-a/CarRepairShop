@@ -1,6 +1,5 @@
 ﻿using CarRepairShop.Domain;
 using CarRepairShop.Domain.Models;
-using CarRepairShop.Domain.Validators;
 using CarRepairShop.Presentation.Wpf.ToolTips;
 using CarRepairShop.Wpf.Attributes;
 using CarRepairShop.Wpf.Commands;
@@ -14,52 +13,53 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
     internal sealed class UncompleteOrderViewModel : ValidatableViewModel, ITooltipMessageViewModel
     {
-        private TooltipMessage tooltipMessage;
-        private readonly Order order;
         private readonly PersonViewModel client;
-        private readonly ICommand setPriceCommand;
         private readonly ICommand completeOrderCommand;
-        private string currentPrice;
+        private readonly Order order;
+        private readonly ICommand setPriceCommand;
         private readonly IOrderManager orderManager;
 
-        public event EventHandler<TooltipMessageEventArgs> MessageCreated;
-        public event EventHandler<OrderEvenArgs> OrderCompleted;
-
-        private string enteredPrice;
-
-        private void OnMessageCreated(TooltipMessage message)
-        {
-            MessageCreated?.Invoke(this, new TooltipMessageEventArgs(message));
-        }
-
-        private void OnOrderCompleted()
-        {
-            OrderCompleted?.Invoke(this, new OrderEvenArgs(order));
-        }
+        private string currentPrice;
+        private string price;
+        private TooltipMessage tooltipMessage;
 
         public UncompleteOrderViewModel(Order order, IOrderManager orderManager)
         {
             this.orderManager = orderManager;
             this.order = order;
             client = new PersonViewModel(order.Client.Person);
+            currentPrice = order.Price.ToString();
 
             setPriceCommand = new AsyncDelegateCommand(SetPrice, () => CanSetPrice);
             completeOrderCommand = new AsyncDelegateCommand(CompleteOrder);
-            currentPrice = order.Price.ToString();
         }
 
-        public PersonViewModel Client => client;
+        [DependsUponProperty(nameof(Price))]
+        public bool CanSetPrice => !HasErrors;
 
         public string CarModel => order.Car.Model;
 
+        public PersonViewModel Client => client;
 
-        [DependsUponProperty(nameof(EnteredPrice))]
-        public bool CanSetPrice => !HasErrors;
+        public ICommand CompleteOrderCommand => completeOrderCommand;
+
+        public string CurrentPrice
+        {
+            get => currentPrice;
+            set => SetProperty(ref currentPrice, value);
+        }
+
+        [ValidatableProperty]
+        public string Price
+        {
+            get => price;
+            set => SetProperty(ref price, value);
+        }
+
+        public Order Order => order;
 
         [RaiseCanExecuteDependsUpon(nameof(CanSetPrice))]
         public ICommand SetPriceCommand => setPriceCommand;
-
-        public ICommand CompleteOrderCommand => completeOrderCommand;
 
         public TooltipMessage TooltipMessage
         {
@@ -70,36 +70,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 OnMessageCreated(tooltipMessage);
             }
         }
-        public string CurrentPrice
-        {
-            get => currentPrice;
-            set => SetProperty(ref currentPrice, value);
-        }
 
-        public string EnteredPrice
-        {
-            get => enteredPrice;
-            set => SetProperty(ref enteredPrice, value);
-        }
-
-        private async Task SetPrice()
-        {
-            Validate();
-            if (!HasErrors)
-            {
-                TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
-                try
-                {
-                    await orderManager.SetPriceAsync(order, double.Parse(enteredPrice));
-                    TooltipMessage = new TooltipMessage($"Price for client {client.Name} is successfully set.", MessageStatus.Successful);
-                    CurrentPrice = EnteredPrice;
-                }
-                catch (DomainException ex)
-                {
-                    TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
-                }
-            }
-        }
+        public event EventHandler<TooltipMessageEventArgs> MessageCreated;
+        public event EventHandler<OrderEvenArgs> OrderCompleted;
 
         private async Task CompleteOrder()
         {
@@ -116,18 +89,38 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             }
         }
 
-
         protected override IEnumerable<string> GetErrors(string propertyName, string propertyValue)
         {
-            Validator validator = new Validator();
-            IEnumerable<string> errors = new string[0];
-            if (propertyName == nameof(EnteredPrice))
-            {
-                errors = validator.ValidatePrice(enteredPrice);
-            }
-            return errors;
+            return orderManager.ValidateProperty(propertyName, propertyValue);
         }
 
-        public Order Order => order;
+        private void OnMessageCreated(TooltipMessage message)
+        {
+            MessageCreated?.Invoke(this, new TooltipMessageEventArgs(message));
+        }
+
+        private void OnOrderCompleted()
+        {
+            OrderCompleted?.Invoke(this, new OrderEvenArgs(order));
+        }
+
+        private async Task SetPrice()
+        {
+            Validate();
+            if (!HasErrors)
+            {
+                TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
+                try
+                {
+                    await orderManager.SetPriceAsync(order, double.Parse(price));
+                    CurrentPrice = Price;
+                    TooltipMessage = new TooltipMessage($"Price for client {client.Name} is successfully set.", MessageStatus.Successful);
+                }
+                catch (DomainException ex)
+                {
+                    TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
+                }
+            }
+        }
     }
 }
