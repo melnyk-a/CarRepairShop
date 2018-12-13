@@ -36,6 +36,40 @@ namespace CarRepairShop.Wpf.ViewModels
             }
         }
 
+        protected abstract IEnumerable<string> GetErrors(string propertyName);
+
+        private void OnErrorsChanged(DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            Validate(e.PropertyName);
+
+            base.OnPropertyChanged(e);
+        }
+
+        protected void Validate()
+        {
+            foreach (PropertyInfo property in properties)
+            {
+                Validate(property.Name);
+            }
+        }
+
+        protected void Validate(string propertyName)
+        {
+            ClearError(propertyName);
+
+            IEnumerable<string> errors = GetErrors(propertyName);
+
+            foreach (var error in errors)
+            {
+                AddError(propertyName, error);
+            }
+        }
+
         IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
         {
             IEnumerable<string> result;
@@ -64,40 +98,6 @@ namespace CarRepairShop.Wpf.ViewModels
             }
 
             return result;
-        }
-
-        protected void Validate()
-        {
-            foreach(PropertyInfo property in properties)
-            {
-                Validate(property.Name);
-            }
-        }
-
-        protected void Validate(string propertyName)
-        {
-            ClearError(propertyName);
-
-            IEnumerable<string> errors = GetErrors(propertyName);
-
-            foreach (var error in errors)
-            {
-                AddError(propertyName, error);
-            }
-        }
-
-        protected abstract IEnumerable<string> GetErrors(string propertyName);
-
-        private void OnErrorsChanged(DataErrorsChangedEventArgs e)
-        {
-            ErrorsChanged?.Invoke(this, e);
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            Validate(e.PropertyName);
-
-            base.OnPropertyChanged(e);
         }
     }
 }
