@@ -6,12 +6,33 @@ namespace CarRepairShop.Domain
 {
     public sealed class Validator
     {
+        private const string CantBeEmpty = "can't be empty.";
+        private const string Description = "Description";
+        private const string IncorrectLength = "has incorrect length.";
+        private const string Model = "Model";
+        private const string Name = "Name";
+        private const string Number = "Number";
+        private const string NotLessOrEqualZero = "can't be less or equal then zero.";
+        private const string NotLessZero = "can't be less then zero.";
+        private const string NotMoreThen = "can't be more then";
+        private const string OnlyDigits = "can contain only digits.";
+        private const string Phone = "Phone";
         private const int PhoneLength = 9;
-        private ICollection<string> result = new List<string>();
+        private const string Price = "Price";
+        private readonly ICollection<string> result = new List<string>();
+        private const string Surname = "Surname";
+        private const string Year = "Year";
 
-        private bool IsNullOrEmpty(string @string)
+        public IEnumerable<string> ValidateDescription(string description)
         {
-            return string.IsNullOrEmpty(@string);
+            result.Clear();
+
+            if (string.IsNullOrEmpty(description))
+            {
+                result.Add($"{Description} {CantBeEmpty}");
+            }
+
+            return result;
         }
 
         private bool IsDigitsOnly(string @string)
@@ -20,55 +41,27 @@ namespace CarRepairShop.Domain
             return regex.IsMatch(@string);
         }
 
-        public IEnumerable<string> ValidateName(string name)
-        {
-            result.Clear();
-
-            if (IsNullOrEmpty(name))
-            {
-                result.Add("Name can't be empty.");
-            }
-            return result;
-        }
-
-        public IEnumerable<string> ValidateSurname(string surname)
-        {
-            result.Clear();
-
-            if (IsNullOrEmpty(surname))
-            {
-                result.Add("Surname can't be empty.");
-            }
-            return result;
-        }
-
-        public IEnumerable<string> ValidatePhone(string phone)
-        {
-            result.Clear();
-
-            if (IsNullOrEmpty(phone))
-            {
-                result.Add("Phone can't be empty.");
-            }
-            if (phone.Length != PhoneLength)
-            {
-                result.Add("Incorrect phone length.");
-            }
-            if (!IsDigitsOnly(phone))
-            {
-                result.Add("Phone can contain only digits.");
-            }
-            return result;
-        }
-
         public IEnumerable<string> ValidateModel(string model)
         {
             result.Clear();
 
-            if (IsNullOrEmpty(model))
+            if (string.IsNullOrEmpty(model))
             {
-                result.Add("Model can't be empty.");
+                result.Add($"{Model} {CantBeEmpty}");
             }
+
+            return result;
+        }
+
+        public IEnumerable<string> ValidateName(string name)
+        {
+            result.Clear();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                result.Add($"{Name} {CantBeEmpty}");
+            }
+
             return result;
         }
 
@@ -76,44 +69,43 @@ namespace CarRepairShop.Domain
         {
             result.Clear();
 
-            if (IsNullOrEmpty(number))
+            if (string.IsNullOrEmpty(number))
             {
-                result.Add("Number can't be empty.");
+                result.Add($"{Number} {CantBeEmpty}");
             }
+
             return result;
         }
 
-        public IEnumerable<string> ValidateYear(string year)
+        public IEnumerable<string> ValidateSurname(string surname)
         {
             result.Clear();
 
-            if (IsNullOrEmpty(year))
+            if (string.IsNullOrEmpty(surname))
             {
-                result.Add("Year can't be empty.");
+                result.Add($"{Surname} {CantBeEmpty}");
             }
-            if (!IsDigitsOnly(year))
-            {
-                result.Add("Year can contain only digits.");
-            }
-            if (year.Length < 5 && int.TryParse(year, out int integer))
-            {
-                int currentYear = (DateTime.Now).Year;
-                if (integer > currentYear)
-                {
-                    result.Add($"Year can't be more then {currentYear}");
-                }
-            }
+
             return result;
         }
 
-        public IEnumerable<string> ValidateDescription(string description)
+        public IEnumerable<string> ValidatePhone(string phone)
         {
             result.Clear();
 
-            if (IsNullOrEmpty(description))
+            if (string.IsNullOrEmpty(phone))
             {
-                result.Add("Description can't be empty.");
+                result.Add($"{Phone} {CantBeEmpty}");
             }
+            if (phone != null && phone.Length != PhoneLength)
+            {
+                result.Add($"{Phone} { IncorrectLength}");
+            }
+            if (phone != null && !IsDigitsOnly(phone))
+            {
+                result.Add($"{Phone} {OnlyDigits}");
+            }
+
             return result;
         }
 
@@ -121,20 +113,47 @@ namespace CarRepairShop.Domain
         {
             result.Clear();
 
-            if (IsNullOrEmpty(price))
+            if (string.IsNullOrEmpty(price))
             {
-                result.Add("Price can't be empty.");
+                result.Add($"{Price} {CantBeEmpty}");
             }
             bool isParsed = double.TryParse(price, out double doublePrice);
             if (!isParsed)
             {
-                result.Add("Price can contain only digits");
+                result.Add($"{Price} {OnlyDigits}");
             }
             if (isParsed && doublePrice < 0)
             {
 
-                result.Add($"Price can't be less than zero");
+                result.Add($"{Price} {NotLessZero}");
             }
+
+            return result;
+        }
+
+        public IEnumerable<string> ValidateYear(string year)
+        {
+            result.Clear();
+
+            if (string.IsNullOrEmpty(year))
+            {
+                result.Add($"{Year} {CantBeEmpty}");
+            }
+            if (year != null && !IsDigitsOnly(year))
+            {
+                result.Add($"{Year} {OnlyDigits}");
+            }
+            bool isParsed = int.TryParse(year, out int integer);
+            if (isParsed & integer <= 0)
+            {
+                result.Add($"{Year} {NotLessOrEqualZero}");
+            }
+            int currentYear = (DateTime.Now).Year;
+            if (isParsed & integer > currentYear)
+            {
+                result.Add($"{Year} {NotMoreThen} {currentYear}");
+            }
+
             return result;
         }
     }
