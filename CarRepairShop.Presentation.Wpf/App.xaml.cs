@@ -1,4 +1,5 @@
 ﻿using CarRepairShop.Domain;
+using CarRepairShop.Domain.Validators;
 using CarRepairShop.Presentation.Wpf.Views;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -18,6 +19,7 @@ namespace CarRepairShop.Presentation.Wpf
                     .SelectAllClasses()
                     .BindAllInterfaces()
                     .ConfigureFor<OrderManager>(config => config.InSingletonScope())
+                    .ConfigureFor<Validator>(config => config.InSingletonScope())
             );
             return container;
         }
