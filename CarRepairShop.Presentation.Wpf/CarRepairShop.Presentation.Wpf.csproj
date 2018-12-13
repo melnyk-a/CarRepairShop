@@ -81,6 +81,9 @@
     <Compile Include="Controls\AssignMechanicControl.xaml.cs">
       <DependentUpon>AssignMechanicControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CompleteOrderControl.xaml.cs">
+      <DependentUpon>CompleteOrderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ReportControl.xaml.cs">
       <DependentUpon>ReportControl.xaml</DependentUpon>
     </Compile>
@@ -92,10 +95,12 @@
     <Compile Include="ViewModels\AddOrderViewModel.cs" />
     <Compile Include="ViewModels\AssignMechanicViewModel.cs" />
     <Compile Include="ViewModels\DetailOrderViewModel.cs" />
+    <Compile Include="ViewModels\CompleteOrderViewModel.cs" />
     <Compile Include="ViewModels\FreeOrderViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\PersonViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="ViewModels\UncompleteOrderViewModel.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
@@ -139,7 +144,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\CompleteOrderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ReportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionaries\ErrorTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

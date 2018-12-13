@@ -50,11 +50,10 @@
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" Width="100" Command="{Binding AddOrderCommand}">Add order</Button>
                 <Button Grid.Row="2" Width="100" Command="{Binding AssignMechanicCommand}">Assign mechanic</Button>
-                <Button Grid.Row="4" Width="100">Complete order</Button>
+                <Button Grid.Row="4" Width="100" Command="{Binding CompleteOrderCommand}">Complete order</Button>
                 <Button Grid.Row="6" Width="100" Command="{Binding ReportCommand}">Show report</Button>
             </Grid>
             <ContentPresenter Grid.Column="2" Margin="5" Content="{Binding Current, ValidatesOnNotifyDataErrors=False}"/>
         </Grid>
-
     </DockPanel>
 </Window>
