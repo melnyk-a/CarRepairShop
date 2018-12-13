@@ -3,8 +3,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
-        <ListBox Grid.Column="2" 
-                 Margin="5" 
+        <ListBox Grid.Column="2"
+                 Margin="5"
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Orders}">
             <ListBox.ItemTemplate>
@@ -24,15 +24,27 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="Auto"/>
-                            
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Client.Name}"></TextBlock>
-                        <TextBlock Grid.Column="2" Text="{Binding CarModel}"></TextBlock>
-                        <TextBlock Grid.Column="4" Text="{Binding CurrentPrice}" HorizontalAlignment="Right"></TextBlock>
-                        <TextBlock Grid.Column="6" FontWeight="Bold" Text="$"/>
-                        <TextBox Grid.Column="8" Text="{Binding EnteredPrice, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                        <Button Grid.Column="10" Width="100" Command="{Binding SetPriceCommand}">Set price</Button>
-                        <Button Grid.Column="12" Width="100" Command="{Binding CompleteOrderCommand}">Complete order</Button>
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding Client.Name}"/>
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding CarModel}"/>
+                        <TextBlock Grid.Column="4"
+                                   HorizontalAlignment="Right"
+                                   Text="{Binding CurrentPrice}"/>
+                        <TextBlock Grid.Column="6"
+                                   FontWeight="Bold"
+                                   Text="$"/>
+                        <TextBox Grid.Column="8"
+                                 Text="{Binding EnteredPrice, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Column="10"
+                                Width="100"
+                                Content="Set price"
+                                Command="{Binding SetPriceCommand}"/>
+                        <Button Grid.Column="12"
+                                Width="100"
+                                Content="Complete order"
+                                Command="{Binding CompleteOrderCommand}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

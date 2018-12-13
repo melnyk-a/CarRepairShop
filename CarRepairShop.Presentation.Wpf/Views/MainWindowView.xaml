@@ -11,24 +11,9 @@
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    <Image Height="15" Width="15">
-                        <Image.Style>
-                            <Style TargetType="{x:Type Image}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Successful">
-                                        <Setter Property="Source" Value="/Images/Successful.png"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Error">
-                                        <Setter Property="Source" Value="/images/Error.png"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Current.TooltipMessage.Status}" Value="Pending">
-                                        <Setter Property="Source" Value="/Images/Pending.png"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Image.Style>
-                    </Image>
-                    <TextBlock Text="{Binding Path=Current.TooltipMessage.Message}" Padding="5 0"/>
+                    <Image Style="{StaticResource tooltipIcon}"/>
+                    <TextBlock Padding="5 0"
+                               Text="{Binding Path=Current.TooltipMessage.Message}"/>
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
@@ -48,12 +33,26 @@
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="0" Width="100" Command="{Binding AddOrderCommand}">Add order</Button>
-                <Button Grid.Row="2" Width="100" Command="{Binding AssignMechanicCommand}">Assign mechanic</Button>
-                <Button Grid.Row="4" Width="100" Command="{Binding CompleteOrderCommand}">Complete order</Button>
-                <Button Grid.Row="6" Width="100" Command="{Binding ReportCommand}">Show report</Button>
+                <Button Grid.Row="0"
+                        Width="100"
+                        Content="Add order"
+                        Command="{Binding AddOrderCommand}"/>
+                <Button Grid.Row="2"
+                        Width="100"
+                        Content="Assign mechanic"
+                        Command="{Binding AssignMechanicCommand}"/>
+                <Button Grid.Row="4"
+                        Width="100"
+                        Content="Complete order"
+                        Command="{Binding CompleteOrderCommand}"/>
+                <Button Grid.Row="6"
+                        Width="100"
+                        Content="Show report"
+                        Command="{Binding ReportCommand}"/>
             </Grid>
-            <ContentPresenter Grid.Column="2" Margin="5" Content="{Binding Current, ValidatesOnNotifyDataErrors=False}"/>
+            <ContentPresenter Grid.Column="2"
+                              Margin="5"
+                              Content="{Binding Current, ValidatesOnNotifyDataErrors=False}"/>
         </Grid>
     </DockPanel>
 </Window>
