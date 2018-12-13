@@ -59,12 +59,12 @@ namespace CarRepairShop.Wpf.ViewModels
 
         protected override void SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
-            base.SetProperty(ref oldValue, newValue, propertyName);
-
-            if(validationProperties.ContainsKey(propertyName))
+            if (validationProperties.ContainsKey(propertyName))
             {
                 Validate(propertyName, newValue as string);
             }
+
+            base.SetProperty(ref oldValue, newValue, propertyName);
         }
 
         protected void Validate()
