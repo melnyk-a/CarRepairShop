@@ -32,7 +32,7 @@
                                     HeaderStyle="{StaticResource CenterGridHeaderStyle}"
                                     Binding="{Binding Mechanic.Name}"/>
                 <DataGridTextColumn Header="Price"
-                                    Width="Auto"
+                                    Width="0.5*"
                                     HeaderStyle="{StaticResource CenterGridHeaderStyle}"
                                     Binding="{Binding Price}"/>
             </DataGrid.Columns>
