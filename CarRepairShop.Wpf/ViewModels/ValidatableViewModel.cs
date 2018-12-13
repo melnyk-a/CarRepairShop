@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CarRepairShop.Wpf.Attributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ namespace CarRepairShop.Wpf.ViewModels
     public abstract class ValidatableViewModel : ViewModel, INotifyDataErrorInfo
     {
         private readonly IDictionary<string, ICollection<string>> propertyToErrors = new Dictionary<string, ICollection<string>>();
+        private ICollection<PropertyInfo> validationProperties = new List<PropertyInfo>();
 
         public bool HasErrors => propertyToErrors.Count > 0;
 
@@ -36,68 +38,79 @@ namespace CarRepairShop.Wpf.ViewModels
             }
         }
 
-        protected abstract IEnumerable<string> GetErrors(string propertyName);
+        protected abstract IEnumerable<string> GetErrors(string propertyName, string propertyValue);
 
         private void OnErrorsChanged(DataErrorsChangedEventArgs e)
         {
             ErrorsChanged?.Invoke(this, e);
         }
 
+        protected override void HandlePropertiesAttributes(PropertyInfo appliedProperty)
+        {
+            base.HandlePropertiesAttributes(appliedProperty);
+
+            var attribute = appliedProperty.GetCustomAttribute<ValidatablePropertyAttribute>();
+            if (attribute != null)
+            {
+                validationProperties.Add(appliedProperty);
+            }
+        }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            Validate(e.PropertyName);
+            //Validate(e.PropertyName);
 
             base.OnPropertyChanged(e);
         }
 
         protected void Validate()
         {
-            foreach (PropertyInfo property in properties)
+            foreach (var property in validationProperties)
             {
-                Validate(property.Name);
+                Validate(property.Name, (string)property.GetValue(this));
             }
         }
 
-        protected void Validate(string propertyName)
+    protected void Validate(string propertyName, string propertyValue)
+    {
+        ClearError(propertyName);
+
+        IEnumerable<string> errors = GetErrors(propertyName, propertyValue);
+
+        foreach (var error in errors)
         {
-            ClearError(propertyName);
-
-            IEnumerable<string> errors = GetErrors(propertyName);
-
-            foreach (var error in errors)
-            {
-                AddError(propertyName, error);
-            }
+            AddError(propertyName, error);
         }
+    }
 
-        IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
+    IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
+    {
+        IEnumerable<string> result;
+
+        if (string.IsNullOrEmpty(propertyName))
         {
-            IEnumerable<string> result;
+            var allErrors = new List<string>();
 
-            if (string.IsNullOrEmpty(propertyName))
+            foreach (ICollection<string> errors in propertyToErrors.Values)
             {
-                var allErrors = new List<string>();
+                allErrors.AddRange(errors);
+            }
 
-                foreach (ICollection<string> errors in propertyToErrors.Values)
-                {
-                    allErrors.AddRange(errors);
-                }
-
-                result = allErrors;
+            result = allErrors;
+        }
+        else
+        {
+            if (propertyToErrors.ContainsKey(propertyName))
+            {
+                result = propertyToErrors[propertyName];
             }
             else
             {
-                if (propertyToErrors.ContainsKey(propertyName))
-                {
-                    result = propertyToErrors[propertyName];
-                }
-                else
-                {
-                    result = new string[0];
-                }
+                result = new string[0];
             }
-
-            return result;
         }
+
+        return result;
     }
+}
 }

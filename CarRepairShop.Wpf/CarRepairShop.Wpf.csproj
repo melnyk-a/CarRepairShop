@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Attributes\DependsUponPropertyAttribute.cs" />
     <Compile Include="Attributes\RaiseCanExecuteDependsUponAttribute.cs" />
+    <Compile Include="Attributes\ValidatablePropertyAttribute.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\AsyncDelegateCommand.cs" />
     <Compile Include="Commands\Command.cs" />

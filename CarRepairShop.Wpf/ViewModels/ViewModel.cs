@@ -40,7 +40,7 @@ namespace CarRepairShop.Wpf.ViewModels
             }
         }
 
-        private void HandlePropertiesAttributes(PropertyInfo appliedProperty)
+        protected virtual void HandlePropertiesAttributes(PropertyInfo appliedProperty)
         {
             HandleDependsUpponProperties(appliedProperty);
             HandleRaiseCanExecuteDependsUpponProperties(appliedProperty);
