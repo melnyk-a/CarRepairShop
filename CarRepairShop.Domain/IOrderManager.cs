@@ -14,5 +14,6 @@ namespace CarRepairShop.Domain
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<IEnumerable<Order>> GetUnompleteOrdersAsync();
         Task SetPriceAsync(Order order, double price);
+        IEnumerable<string> ValidateProperty(string propertyName, string propertyValue);
     }
 }

@@ -43,9 +43,22 @@
   <ItemGroup>
     <Compile Include="DomainException.cs" />
     <Compile Include="IOrderManager.cs" />
+    <Compile Include="Validators\IValidator.cs" />
     <Compile Include="OrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validator.cs" />
+    <Compile Include="Validators\ValidationCommands\DescriptionValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\IValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\ModelValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\NumberValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\PhoneValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\PriceValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\ValidationCommandFactories\IValidationCommandFactory.cs" />
+    <Compile Include="Validators\ValidationCommands\NameValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\SurnameValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\ValidationCommand.cs" />
+    <Compile Include="Validators\ValidationCommands\ValidationCommandFactories\ValidationCommandFactory.cs" />
+    <Compile Include="Validators\ValidationCommands\YearValidationCommand.cs" />
+    <Compile Include="Validators\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarRepairShop.Data\CarRepairShop.Data.csproj">

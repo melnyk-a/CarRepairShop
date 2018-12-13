@@ -1,5 +1,7 @@
 ﻿using CarRepairShop.Data;
 using CarRepairShop.Domain.Models;
+using CarRepairShop.Domain.Validators.ValidationCommands;
+using CarRepairShop.Domain.Validators.ValidationCommands.ValidationCommandFactories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,10 +11,12 @@ namespace CarRepairShop.Domain
     public sealed class OrderManager : IOrderManager
     {
         private readonly IOrderDataService dataService;
+        private readonly IEnumerable<IValidationCommand> validationCommands;
 
-        public OrderManager(IOrderDataService dataService)
+        public OrderManager(IOrderDataService dataService, IValidationCommandFactory commandFactory)
         {
             this.dataService = dataService;
+            validationCommands = commandFactory.CreateValidationCommands();
         }
 
         public async Task AddOrderAync(Order order)
@@ -136,6 +140,21 @@ namespace CarRepairShop.Domain
                     throw new DomainException(ex.Message);
                 }
             }
+        }
+
+        public IEnumerable<string> ValidateProperty(string propertyName, string propertyValue)
+        {
+            IEnumerable<string> errors = new string[0];
+
+            foreach(var validationCommand in validationCommands)
+            {
+                if(validationCommand.CanValidate(propertyName))
+                {
+                    errors = validationCommand.Validate(propertyValue);
+                }
+            }
+
+            return errors;
         }
     }
 }

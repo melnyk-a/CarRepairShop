@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CarRepairShop.Domain
+namespace CarRepairShop.Domain. Validators
 {
-    public sealed class Validator
+    public sealed class Validator : IValidator
     {
         private const string CantBeEmpty = "can't be empty.";
         private const string Description = "Description";
