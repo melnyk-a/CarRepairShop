@@ -67,7 +67,7 @@ namespace CarRepairShop.Wpf.ViewModels
             PropertyChanged?.Invoke(this, e);
         }
 
-        protected void SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
+        protected virtual void SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
             if (!oldValue?.Equals(newValue) ?? newValue != null)
             {

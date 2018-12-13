@@ -4,13 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace CarRepairShop.Wpf.ViewModels
 {
     public abstract class ValidatableViewModel : ViewModel, INotifyDataErrorInfo
     {
         private readonly IDictionary<string, ICollection<string>> propertyToErrors = new Dictionary<string, ICollection<string>>();
-        private ICollection<PropertyInfo> validationProperties = new List<PropertyInfo>();
+        private IDictionary<string, PropertyInfo> validationProperties = new Dictionary<string, PropertyInfo>();
 
         public bool HasErrors => propertyToErrors.Count > 0;
 
@@ -52,22 +53,25 @@ namespace CarRepairShop.Wpf.ViewModels
             var attribute = appliedProperty.GetCustomAttribute<ValidatablePropertyAttribute>();
             if (attribute != null)
             {
-                validationProperties.Add(appliedProperty);
+                validationProperties.Add(appliedProperty.Name, appliedProperty);
             }
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected override void SetProperty<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
-            //Validate(e.PropertyName);
+            base.SetProperty(ref oldValue, newValue, propertyName);
 
-            base.OnPropertyChanged(e);
+            if(validationProperties.ContainsKey(propertyName))
+            {
+                Validate(propertyName, newValue as string);
+            }
         }
 
         protected void Validate()
         {
             foreach (var property in validationProperties)
             {
-                Validate(property.Name, (string)property.GetValue(this));
+                Validate(property.Key, (string)property.Value.GetValue(this));
             }
         }
 
