@@ -15,142 +15,126 @@ namespace CarRepairShop.Domain
             this.dataService = dataService;
         }
 
-        public async Task AddOrder(Order order)
+        public async Task AddOrderAync(Order order)
         {
             order.StartDate = DateTime.Now;
 
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                await dataGateway.AddOrder(order);
-            }
-            catch(DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    await dataGateway.AddOrder(order);
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task AssignMechanicAsync(Order order, Person mechanic)
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                await dataGateway.AssignMechanicAsync(order.Id, mechanic.Id);
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    await dataGateway.AssignMechanicAsync(order.Id, mechanic.Id);
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task CompleteOrderAsync(Order order)
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            order.FinishDate = DateTime.Now;
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                order.FinishDate = DateTime.Now;
-                await dataGateway.CompleteOrderAsync(order.Id, order.FinishDate);
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    await dataGateway.CompleteOrderAsync(order.Id, order.FinishDate);
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task<IEnumerable<Order>> GetFreeOrdersAsync()
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                return await dataGateway.GetFreeOrdersAsync();
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    return await dataGateway.GetFreeOrdersAsync();
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task<IEnumerable<Person>> GetMechanicsAsync()
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                return await dataGateway.GetMechanicsAsync();
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    return await dataGateway.GetMechanicsAsync();
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task<IEnumerable<Order>> GetOrdersAsync()
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                return await dataGateway.GetOrdersAsync();
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    return await dataGateway.GetOrdersAsync();
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task<IEnumerable<Order>> GetUnompleteOrdersAsync()
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-                return await dataGateway.GetUnompleteOrdersAsync();
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    return await dataGateway.GetUnompleteOrdersAsync();
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
 
         public async Task SetPriceAsync(Order order, double price)
         {
-            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
-            try
+            using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
-               await dataGateway.SetPriceAsync(order.Id, price);
-            }
-            catch (DataException ex)
-            {
-                throw new DomainException(ex.Message);
-            }
-            finally
-            {
-                dataGateway.Dispose();
+                try
+                {
+                    await dataGateway.SetPriceAsync(order.Id, price);
+                }
+                catch (DataException ex)
+                {
+                    throw new DomainException(ex.Message);
+                }
             }
         }
     }
