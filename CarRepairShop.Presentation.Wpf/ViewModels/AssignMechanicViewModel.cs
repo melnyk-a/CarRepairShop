@@ -19,7 +19,6 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         public AssignMechanicViewModel(IOrderManager orderManager)
         {
             this.orderManager = orderManager;
-            LoadOrders();
         }
 
         public TooltipMessage TooltipMessage
@@ -28,8 +27,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             set => SetProperty(ref tooltipMessage, value);
         }
 
-        private async void LoadOrders()
+        public async void LoadOrders()
         {
+            orderViewModels.Clear();
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {

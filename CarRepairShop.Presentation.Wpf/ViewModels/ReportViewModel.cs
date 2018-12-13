@@ -18,12 +18,12 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
         {
             this.orderManager = orderManager;
 
-            LoadOrders();
             
         }
 
-        private async void LoadOrders()
+        public async void LoadOrders()
         {
+            orderViewModel.Clear();
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {
