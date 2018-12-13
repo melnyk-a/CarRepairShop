@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CarRepairShop.Presentation.Wpf
+namespace CarRepairShop.Presentation.Wpf.ToolTips
 {
-    internal sealed class TooltipMessageEventArgs :EventArgs
+    internal sealed class TooltipMessageEventArgs : EventArgs
     {
         private readonly TooltipMessage message;
 

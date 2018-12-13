@@ -1,4 +1,4 @@
-﻿namespace CarRepairShop.Presentation.Wpf
+﻿namespace CarRepairShop.Presentation.Wpf.ToolTips
 {
     internal enum MessageStatus
     {
