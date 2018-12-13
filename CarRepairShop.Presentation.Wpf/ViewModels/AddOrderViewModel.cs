@@ -153,6 +153,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             Year = string.Empty;
 
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(CanAddOrder)));
+            TooltipMessage = new TooltipMessage("All fields refreshed", MessageStatus.Successful);
         }
     }
 }
