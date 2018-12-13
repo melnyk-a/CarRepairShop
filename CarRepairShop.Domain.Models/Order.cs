@@ -21,7 +21,7 @@ namespace CarRepairShop.Domain.Models
 
         public Order(int id, Client client, Car car, string description)
         {
-            if (client.Equals(0) || Car.Equals(0) || string.IsNullOrEmpty(description))
+            if (client.Equals(null) || car.Equals(null) || string.IsNullOrEmpty(description))
             {
                 throw new ArgumentException();
             }

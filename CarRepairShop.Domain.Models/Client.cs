@@ -9,7 +9,7 @@ namespace CarRepairShop.Domain.Models
 
         public Client(Person person, string phone)
         {
-            if (person.Equals(0) || string.IsNullOrEmpty(phone))
+            if (person.Equals(null) || string.IsNullOrEmpty(phone))
             {
                 throw new ArgumentException();
             }
