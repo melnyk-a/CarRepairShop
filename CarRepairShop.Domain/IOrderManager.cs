@@ -6,7 +6,7 @@ namespace CarRepairShop.Domain
 {
     public interface IOrderManager
     {
-        Task AddOrder(Order order);
+        Task AddOrderAsync(Order order);
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<IEnumerable<Order>> GetFreeOrdersAsync();
         Task<IEnumerable<Person>> GetMechanicsAsync();
