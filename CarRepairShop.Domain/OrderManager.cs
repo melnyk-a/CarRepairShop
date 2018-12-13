@@ -112,7 +112,7 @@ namespace CarRepairShop.Domain
             }
         }
 
-        public async Task<IEnumerable<Order>> GetUnompleteOrdersAsync()
+        public async Task<IEnumerable<Order>> GetUncompleteOrdersAsync()
         {
             using (IOrderDataGateway dataGateway = dataService.OpenDataGateway())
             {
