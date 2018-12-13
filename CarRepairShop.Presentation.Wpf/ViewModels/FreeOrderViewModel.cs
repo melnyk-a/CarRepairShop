@@ -11,31 +11,19 @@ using System.Windows.Input;
 
 namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
-    internal sealed class FreeOrderViewModel: ViewModel, ITooltipMessageViewModel
+    internal sealed class FreeOrderViewModel : ViewModel, ITooltipMessageViewModel
     {
-        private TooltipMessage tooltipMessage;
-        private readonly Order order;
-        private readonly IEnumerable<PersonViewModel> mechanics;
-        private readonly PersonViewModel client;
         private readonly ICommand assignMechanicCommand;
+        private readonly PersonViewModel client;
+        private readonly IEnumerable<PersonViewModel> mechanics;
+        private readonly Order order;
         private readonly IOrderManager orderManager;
 
         private PersonViewModel selectedMechanic;
+        private TooltipMessage tooltipMessage;
 
         public event EventHandler<TooltipMessageEventArgs> MessageCreated;
         public event EventHandler<OrderEvenArgs> MechanicAssigned;
-
-
-
-        private void OnMessageCreated(TooltipMessage message)
-        {
-            MessageCreated?.Invoke(this, new TooltipMessageEventArgs(message));
-        }
-
-        private void OnMechanicAssigned()
-        {
-            MechanicAssigned?.Invoke(this, new OrderEvenArgs(order));
-        }
 
         public FreeOrderViewModel(Order order, IEnumerable<PersonViewModel> mechanics, IOrderManager orderManager)
         {
@@ -43,26 +31,29 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             this.order = order;
             this.mechanics = mechanics;
             client = new PersonViewModel(order.Client.Person);
+
             assignMechanicCommand = new AsyncDelegateCommand(AssignMechanic, () => CanAssign);
         }
 
-        public PersonViewModel Client => client;
+        [RaiseCanExecuteDependsUpon(nameof(CanAssign))]
+        public ICommand AssignMechanicCommand => assignMechanicCommand;
+
+        [DependsUponPropertyAttribute(nameof(SelectedMechanic))]
+        public bool CanAssign => SelectedMechanic != null;
 
         public string CarModel => order.Car.Model;
 
+        public PersonViewModel Client => client;
+
         public IEnumerable<PersonViewModel> Mechanics => mechanics;
+
+        public Order Order => order;
 
         public PersonViewModel SelectedMechanic
         {
             get => selectedMechanic;
             set => SetProperty(ref selectedMechanic, value);
         }
-
-        [DependsUponPropertyAttribute(nameof(SelectedMechanic))]
-        public bool CanAssign => SelectedMechanic != null;
-
-        [RaiseCanExecuteDependsUpon(nameof(CanAssign))]
-        public ICommand AssignMechanicCommand => assignMechanicCommand;
 
         public TooltipMessage TooltipMessage
         {
@@ -81,7 +72,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             {
                 TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
                 await orderManager.AssignMechanicAsync(order, selectedMechanic.Person);
-                TooltipMessage = new TooltipMessage($"Mechanic {selectedMechanic.Name} for client {order.Client.Person.Name} {order.Client.Person.Surname} is successfully assigned.", MessageStatus.Successful);
+                TooltipMessage = new TooltipMessage($"Mechanic {selectedMechanic.Name} for client {client.Name} is successfully assigned.", MessageStatus.Successful);
                 OnMechanicAssigned();
             }
             catch (DomainException ex)
@@ -90,6 +81,14 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             }
         }
 
-        public Order Order => order;
+        private void OnMechanicAssigned()
+        {
+            MechanicAssigned?.Invoke(this, new OrderEvenArgs(order));
+
+        }
+        private void OnMessageCreated(TooltipMessage message)
+        {
+            MessageCreated?.Invoke(this, new TooltipMessageEventArgs(message));
+        }
     }
 }
