@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CarRepairShop.Domain.Validators;
+using NUnit.Framework;
 using System;
 
 namespace CarRepairShop.Domain.Test.ValidatorTests
