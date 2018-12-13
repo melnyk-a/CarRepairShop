@@ -146,9 +146,9 @@ namespace CarRepairShop.Domain
         {
             IEnumerable<string> errors = new string[0];
 
-            foreach(var validationCommand in validationCommands)
+            foreach (var validationCommand in validationCommands)
             {
-                if(validationCommand.CanValidate(propertyName))
+                if (validationCommand.CanValidate(propertyName))
                 {
                     errors = validationCommand.Validate(propertyValue);
                 }

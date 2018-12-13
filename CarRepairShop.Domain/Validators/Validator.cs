@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CarRepairShop.Domain. Validators
+namespace CarRepairShop.Domain.Validators
 {
     public sealed class Validator : IValidator
     {

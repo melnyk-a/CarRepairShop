@@ -6,7 +6,7 @@ namespace CarRepairShop.Domain.Validators.ValidationCommands
     {
         private readonly IValidator validator;
 
-        public NameValidationCommand(IValidator validator, string propertyName):
+        public NameValidationCommand(IValidator validator, string propertyName) :
             base(propertyName)
         {
             this.validator = validator;
