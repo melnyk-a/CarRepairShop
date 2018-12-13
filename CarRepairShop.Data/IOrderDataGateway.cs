@@ -12,5 +12,8 @@ namespace CarRepairShop.Data
         Task<IEnumerable<Order>> GetFreeOrdersAsync();
         Task<IEnumerable<Person>> GetMechanicsAsync();
         Task AssignMechanicAsync(int orderId, int mechanicId);
+        Task SetPriceAsync(int orderId, double price);
+        Task<IEnumerable<Order>> GetUnompleteOrdersAsync();
+        Task CompleteOrderAsync(int orderId, DateTime finishDate);
     }
 }

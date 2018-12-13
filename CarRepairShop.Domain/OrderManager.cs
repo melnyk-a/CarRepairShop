@@ -51,6 +51,24 @@ namespace CarRepairShop.Domain
             }
         }
 
+        public async Task CompleteOrderAsync(Order order)
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                order.FinishDate = DateTime.Now;
+                await dataGateway.CompleteOrderAsync(order.Id, order.FinishDate);
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
         public async Task<IEnumerable<Order>> GetFreeOrdersAsync()
         {
             IOrderDataGateway dataGateway = dataService.OpenDataGateway();
@@ -91,6 +109,40 @@ namespace CarRepairShop.Domain
             try
             {
                 return await dataGateway.GetOrdersAsync();
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
+        public async Task<IEnumerable<Order>> GetUnompleteOrdersAsync()
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+                return await dataGateway.GetUnompleteOrdersAsync();
+            }
+            catch (DataException ex)
+            {
+                throw new DomainException(ex.Message);
+            }
+            finally
+            {
+                dataGateway.Dispose();
+            }
+        }
+
+        public async Task SetPriceAsync(Order order, double price)
+        {
+            IOrderDataGateway dataGateway = dataService.OpenDataGateway();
+            try
+            {
+               await dataGateway.SetPriceAsync(order.Id, price);
             }
             catch (DataException ex)
             {

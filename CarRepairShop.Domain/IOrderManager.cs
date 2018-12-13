@@ -11,5 +11,8 @@ namespace CarRepairShop.Domain
         Task<IEnumerable<Order>> GetFreeOrdersAsync();
         Task<IEnumerable<Person>> GetMechanicsAsync();
         Task AssignMechanicAsync(Order order, Person mechanic);
+        Task<IEnumerable<Order>> GetUnompleteOrdersAsync();
+        Task CompleteOrderAsync(Order order);
+        Task SetPriceAsync(Order order, double price);
     }
 }
