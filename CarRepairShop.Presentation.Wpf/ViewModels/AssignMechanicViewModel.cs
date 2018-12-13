@@ -12,6 +12,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
     {
         private readonly IOrderManager orderManager;
         private readonly ICollection<FreeOrderViewModel> orderViewModels = new ObservableCollection<FreeOrderViewModel>();
+
         private TooltipMessage tooltipMessage;
 
         public AssignMechanicViewModel(IOrderManager orderManager)
@@ -27,7 +28,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             set => SetProperty(ref tooltipMessage, value);
         }
 
-        private async void FillOrderViewModel(IEnumerable<PersonViewModel> mechanics)
+        private async Task FillOrderViewModel(IEnumerable<PersonViewModel> mechanics)
         {
             var orders = await orderManager.GetFreeOrdersAsync();
             foreach (Order order in orders)
@@ -59,7 +60,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             try
             {
                 var mechanicsViewModels = await GetMechanicsViewModels();
-                FillOrderViewModel(mechanicsViewModels);
+                await FillOrderViewModel(mechanicsViewModels);
                 TooltipMessage = new TooltipMessage("Loaded", MessageStatus.Successful);
             }
             catch (DomainException e)

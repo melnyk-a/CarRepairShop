@@ -4,6 +4,7 @@ using CarRepairShop.Presentation.Wpf.ToolTips;
 using CarRepairShop.Wpf.ViewModels;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace CarRepairShop.Presentation.Wpf.ViewModels
 {
@@ -27,7 +28,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             set => SetProperty(ref tooltipMessage, value);
         }
 
-        private async void FillOrderViewModel()
+        private async Task FillOrderViewModel()
         {
             var orders = await orderManager.GetUncompleteOrdersAsync();
 
@@ -40,13 +41,13 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             }
         }
 
-        public void LoadOrders()
+        public async void LoadOrders()
         {
             orderViewModels.Clear();
             TooltipMessage = new TooltipMessage("Pending...", MessageStatus.Pending);
             try
             {
-                FillOrderViewModel();
+                await FillOrderViewModel();
                 TooltipMessage = new TooltipMessage("Loaded", MessageStatus.Successful);
             }
             catch (DomainException e)
