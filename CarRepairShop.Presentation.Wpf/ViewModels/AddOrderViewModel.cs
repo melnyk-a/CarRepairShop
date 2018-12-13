@@ -5,6 +5,7 @@ using CarRepairShop.Wpf.Attributes;
 using CarRepairShop.Wpf.Commands;
 using CarRepairShop.Wpf.ViewModels;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -14,20 +15,23 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
     {
         private readonly ICommand addOrderCommand;
         private readonly IOrderManager orderManager;
+        private readonly ICommand refreshCommand;
 
         private string description = string.Empty;
         private string model = string.Empty;
         private string name = string.Empty;
+        private bool needToValidate = true;
         private string number = string.Empty;
         private string phone = string.Empty;
         private string surname = string.Empty;
         private TooltipMessage tooltipMessage;
-        private string year = string.Empty;      
+        private string year = string.Empty;
 
         public AddOrderViewModel(IOrderManager orderManager)
         {
             this.orderManager = orderManager;
             addOrderCommand = new AsyncDelegateCommand(AddOrderAsync, () => CanAddOrder);
+            refreshCommand = new DelegateCommand(Refresh, () => true);
         }
 
         [RaiseCanExecuteDependsUpon(nameof(CanAddOrder))]
@@ -77,6 +81,8 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
             set => SetProperty(ref phone, value);
         }
 
+        public ICommand RefreshCommand => refreshCommand;
+
         [ValidatableProperty]
         public string Surname
         {
@@ -99,6 +105,7 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 
         private async Task AddOrderAsync()
         {
+            needToValidate = true;
             Validate();
             if (!HasErrors)
             {
@@ -112,8 +119,9 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 {
                     await orderManager.AddOrderAync(order);
                     TooltipMessage = new TooltipMessage($"Order for client {name} {surname} is successfully added.", MessageStatus.Successful);
+                    Refresh();
                 }
-                catch(DomainException ex)
+                catch (DomainException ex)
                 {
                     TooltipMessage = new TooltipMessage(ex.Message, MessageStatus.Error);
                 }
@@ -122,7 +130,29 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
 
         protected override IEnumerable<string> GetErrors(string propertyName, string propertyValue)
         {
-            return orderManager.ValidateProperty(propertyName, propertyValue);
+            IEnumerable<string> result = new string[0];
+
+            if (needToValidate)
+            {
+                result = orderManager.ValidateProperty(propertyName, propertyValue);
+            }
+
+            return result;
+        }
+
+        private void Refresh()
+        {
+            needToValidate = false;
+
+            Description = string.Empty;
+            Model = string.Empty;
+            Name = string.Empty;
+            Number = string.Empty;
+            Phone = string.Empty;
+            Surname = string.Empty;
+            Year = string.Empty;
+
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(CanAddOrder)));
         }
     }
 }

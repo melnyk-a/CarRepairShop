@@ -92,9 +92,22 @@
                  Margin="0 5"
                  Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"
                  Validation.ErrorTemplate="{StaticResource TopErrorTemplate}"/>
-        <Button Grid.Row="18"
-                Grid.Column="2"
-                Command="{Binding AddOrderCommand}"
-                Content="Add order"/>
+        <Grid  Grid.Row="18"
+               Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1"
+                    Width="100"
+                    Command="{Binding RefreshCommand}"
+                    Content="Refresh"/>
+            <Button Grid.Column="3"
+                    Width="100"
+                    Command="{Binding AddOrderCommand}"
+                    Content="Add order"/>
+        </Grid>
     </Grid>
 </UserControl>
