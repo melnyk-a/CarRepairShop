@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Data", "CarRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Data.SqlClient", "CarRepairShop.Data.SqlClient\CarRepairShop.Data.SqlClient.csproj", "{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRepairShop.Domain.Test", "CarRepairShop.Domain.Test\CarRepairShop.Domain.Test.csproj", "{B878D292-9D7D-42C4-AE80-6CBB16BD454C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B878D292-9D7D-42C4-AE80-6CBB16BD454C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B878D292-9D7D-42C4-AE80-6CBB16BD454C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B878D292-9D7D-42C4-AE80-6CBB16BD454C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B878D292-9D7D-42C4-AE80-6CBB16BD454C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{D411CD71-20E4-42B8-A051-55FCE8E22724} = {571156FC-0E7B-449F-89E2-8B0B8E2D1588}
 		{9C06B019-71EB-4ED4-AA9A-97635A5D36C4} = {96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}
 		{3019CCFE-E078-4FA9-8A68-5FF6E458F67E} = {96A61C11-E9D4-4E98-83D6-8D5FAAF82C5C}
+		{B878D292-9D7D-42C4-AE80-6CBB16BD454C} = {571156FC-0E7B-449F-89E2-8B0B8E2D1588}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFA85E51-DE1A-46D3-8375-88B770DB22E7}
