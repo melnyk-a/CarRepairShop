@@ -30,7 +30,7 @@ select Orders.Id,
                 inner join Persons p1 on (Clients.PersonId = p1.Id)
 				inner join Phones  on (Clients.PhoneId = Phones.Id)
                 left join Mechanics on (Orders.MechanicId = Mechanics.Id)
-                left join Persons p2 on (Mechanics.PersonId = p2.Id)
+                left join Persons p2 on (Mechanics.PersonId = p2.Id);
 go
 
 select StartDate, 
@@ -75,5 +75,5 @@ from Orders
 	left join OrderDetails on (Orders.Id = OrderDetails.OrderId)
 where FinishDate is not null and YEAR(FinishDate) = YEAR(GetDate())
 group by Persons.Surname + N' ' + Persons.Name, datename(month, FinishDate)
-order by Persons.Surname + N' ' + Persons.Name, dbo.MonthNameToNumber(datename(month, FinishDate))
+order by Persons.Surname + N' ' + Persons.Name, dbo.MonthNameToNumber(datename(month, FinishDate));
 go
