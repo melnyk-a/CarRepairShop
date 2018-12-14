@@ -60,7 +60,7 @@
                  Text="{Binding Path=Phone, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="8"
                    Grid.Column="0"
-                   Padding="0 5"
+                   Margin="0 2"
                    FontWeight="Bold"
                    Text="Car details:"/>
         <TextBlock Grid.Row="10"
