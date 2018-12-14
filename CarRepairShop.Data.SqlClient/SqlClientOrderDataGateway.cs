@@ -1,11 +1,10 @@
-﻿using CarRepairShop.Domain.Models;
+﻿using CarRepairShop.Data.SqlClient.Dtos;
+using CarRepairShop.Domain.Models;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using System.Configuration;
-using System.Data;
-using System.Collections.Generic;
-using CarRepairShop.Data.SqlClient.Dtos;
 
 namespace CarRepairShop.Data.SqlClient
 {
@@ -33,9 +32,9 @@ namespace CarRepairShop.Data.SqlClient
 
                 return connection;
             }
-            catch (SqlException ex)
+            catch (SqlException e)
             {
-                throw new DataException(ex.Message);
+                throw new DataException(e.Message);
             }
         }
 
@@ -59,70 +58,35 @@ namespace CarRepairShop.Data.SqlClient
 
         private void AddOrder(int clientId, int carId, DateTime startDate, string description)
         {
-            SqlTransaction transaction = Connection.BeginTransaction();
-            SqlCommand command = Connection.CreateCommand();
-            command.Transaction = transaction;
-
+            var command = new SqlCommand(
+                $@"insert into Orders(ClientId, CarId, Description, StartDate)
+                values({clientId}, {carId}, N'{description}', N'{startDate}')",
+                Connection
+            );
             try
             {
-                command.CommandText = "AddOrder";
-                command.CommandType = CommandType.StoredProcedure;
-
-                SqlParameter clientIdParameter = command.Parameters.Add("@clientId", SqlDbType.Int);
-                clientIdParameter.Value = clientId;
-
-                SqlParameter carIdParameter = command.Parameters.Add("@carId", SqlDbType.Int);
-                carIdParameter.Value = carId;
-
-                SqlParameter descriptionParameter = command.Parameters.Add("@description", SqlDbType.NVarChar, 256);
-                descriptionParameter.Value = description;
-
-                SqlParameter startDateParameter = command.Parameters.Add("@startDate", SqlDbType.Date);
-                startDateParameter.Value = startDate;
-
                 command.ExecuteNonQuery();
-
-                transaction.Commit();
             }
             catch (Exception e)
             {
-                transaction.Rollback();
                 throw new DataException(e.Message);
             }
         }
 
         private int AddCar(Car car)
         {
-            SqlTransaction transaction = Connection.BeginTransaction();
-            SqlCommand command = Connection.CreateCommand();
-            command.Transaction = transaction;
-
+            var command = new SqlCommand(
+                $@"insert into Cars(Model, Year, Number)
+                values(N'{car.Model}', {car.Year}, N'{car.Number}');
+                select scope_identity()",
+              Connection
+            );
             try
             {
-                command.CommandText = "AddCar";
-                command.CommandType = CommandType.StoredProcedure;
-
-                SqlParameter modelParameter = command.Parameters.Add("@model", SqlDbType.NVarChar, 50);
-                modelParameter.Value = car.Model;
-
-                SqlParameter yearParameter = command.Parameters.Add("@year", SqlDbType.SmallInt);
-                yearParameter.Value = car.Year;
-
-                SqlParameter numberParameter = command.Parameters.Add("@number", SqlDbType.NVarChar, 15);
-                numberParameter.Value = car.Number;
-
-                SqlParameter carId = command.Parameters.AddWithValue("@carId", SqlDbType.Int);
-                carId.Direction = ParameterDirection.Output;
-
-                command.ExecuteNonQuery();
-
-                transaction.Commit();
-
-                return (int)carId.Value;
+                return Convert.ToInt32(command.ExecuteScalar());
             }
             catch (Exception e)
             {
-                transaction.Rollback();
                 throw new DataException(e.Message);
             }
         }
@@ -135,26 +99,23 @@ namespace CarRepairShop.Data.SqlClient
 
             try
             {
-                command.CommandText = "AddClient";
-                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = $@"insert into Persons
+                    values(N'{client.Person.Name}', N'{client.Person.Surname}'); 
+                    select scope_identity()";
+                int personId = Convert.ToInt32(command.ExecuteScalar());
 
-                SqlParameter nameParameter = command.Parameters.Add("@name", SqlDbType.NVarChar, 50);
-                nameParameter.Value = client.Person.Name;
+                command.CommandText = $@"insert into Phones
+                    values (N'{client.Phone}');
+                    select scope_identity()";
+                int phoneId = Convert.ToInt32(command.ExecuteScalar());
 
-                SqlParameter surnameParameter = command.Parameters.Add("@surname", SqlDbType.NVarChar, 50);
-                surnameParameter.Value = client.Person.Surname;
-
-                SqlParameter phoneParameter = command.Parameters.Add("@phone", SqlDbType.NVarChar, 9);
-                phoneParameter.Value = client.Phone;
-
-                SqlParameter clientId = command.Parameters.AddWithValue("@clientId", SqlDbType.Int);
-                clientId.Direction = ParameterDirection.Output;
-
-                command.ExecuteNonQuery();
+                command.CommandText = $@"insert into Clients
+                values({personId}, {phoneId});
+                select scope_identity()";
+                int clientId = Convert.ToInt32(command.ExecuteScalar());
 
                 transaction.Commit();
-
-                return (int)clientId.Value;
+                return clientId;
             }
             catch (Exception e)
             {
@@ -168,9 +129,9 @@ namespace CarRepairShop.Data.SqlClient
             int carId = -1;
 
             var command = new SqlCommand(
-               $@"select Cars.Id
-                  from Cars 
-                  where Cars.Model = N'{car.Model}' and Cars.Number = N'{car.Number}' and Cars.Year = '{car.Year}'",
+                $@"select Cars.Id
+                from Cars 
+                where Cars.Model = N'{car.Model}' and Cars.Number = N'{car.Number}' and Cars.Year = '{car.Year}'",
                Connection
            );
             object result = command.ExecuteScalar();
@@ -187,11 +148,11 @@ namespace CarRepairShop.Data.SqlClient
             int clientId = -1;
 
             var command = new SqlCommand(
-               $@"select Clients.Id
-                 from Clients 
-                 inner join Persons on (Clients.PersonId = Persons.Id)
-                 inner join Phones on (Clients.PhoneId = Phones.Id)
-                 where Persons.Name = N'{client.Person.Name}' and Persons.Surname = N'{client.Person.Surname}' and Phones.Number = '{client.Phone}'",
+                $@"select Clients.Id
+                from Clients 
+                inner join Persons on (Clients.PersonId = Persons.Id)
+                inner join Phones on (Clients.PhoneId = Phones.Id)
+                where Persons.Name = N'{client.Person.Name}' and Persons.Surname = N'{client.Person.Surname}' and Phones.Number = '{client.Phone}'",
                Connection
            );
             object result = command.ExecuteScalar();
@@ -218,179 +179,39 @@ namespace CarRepairShop.Data.SqlClient
 
         private IEnumerable<Order> GetOrders()
         {
-            var orderDtos = new List<OrderDto>();
-
             var command = new SqlCommand(
-                @"select Orders.Id,
-                         p1.Name as [Client name] ,
-                         p1.Surname as [Client surname],
-						 Phones.Number as [Phone],
-                         Cars.Model,
-						 Cars.Year,
-						 Cars.Number,
-                         Orders.StartDate,
-                         Orders.FinishDate,
-                         p2.Name as [Mechanic name],
-                         p2.Surname as [Mechanic surname],
-                         Orders.Price,
-						 Description
-                from Orders
-                inner join Cars on (Orders.CarId = Cars.Id)
-                inner join Clients on (Orders.ClientId = Clients.Id)
-                inner join Persons p1 on (Clients.PersonId = p1.Id)
-				inner join Phones  on (Clients.PhoneId = Phones.Id)
-                left join Mechanics on (Orders.MechanicId = Mechanics.Id)
-                left join Persons p2 on (Mechanics.PersonId = p2.Id)",
-            Connection);
+                @"select *
+                from ExpandedOrders",
+                Connection
+            );
 
-            try
-            {
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var orderDto = new OrderDto
-                        {
-                            Id = (int)reader["Id"],
-                            Client = new Client(new Person(reader["Client name"].ToString(), reader["Client surname"].ToString()), reader["Phone"].ToString()),
-                            Car = new Car(reader["Model"].ToString(), Convert.ToInt16(reader["Year"]), reader["Number"].ToString()),
-                            StartDate = (DateTime)reader["StartDate"],
-                            Description = reader["Description"].ToString()
-                        };
+            IEnumerable<OrderDto> ordersDtos = GetOrderDtos(command);
 
-                        string mechanicName = reader["Mechanic name"].ToString();
-                        string mechanicSurname = reader["Mechanic surname"].ToString();
-                        if (mechanicName != string.Empty && mechanicSurname != string.Empty)
-                        {
-                            orderDto.Mechanic = new Person(mechanicName, mechanicSurname);
-                        }
-
-                        string finishDate = reader["FinishDate"].ToString();
-                        if (finishDate != string.Empty)
-                        {
-                            orderDto.FinishDate = DateTime.Parse(finishDate);
-                        }
-
-                        string price = reader["Price"].ToString();
-                        if (price != string.Empty)
-                        {
-                            orderDto.Price = double.Parse(price);
-                        }
-
-                        orderDtos.Add(orderDto);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new DataException(e.Message);
-            }
-
-            var orders = new List<Order>();
-
-            foreach (OrderDto orderDto in orderDtos)
-            {
-                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
-                {
-                    Mechanic = orderDto.Mechanic,
-                    StartDate = orderDto.StartDate,
-                    FinishDate = orderDto.FinishDate,
-                    Price = orderDto.Price
-                };
-                orders.Add(order);
-            }
-
-            return orders;
+            return GetOrders(ordersDtos);
         }
 
         public async Task<IEnumerable<Order>> GetFreeOrdersAsync()
         {
-           return await Task.Run(() => GetFreeOrders());
+            return await Task.Run(() => GetFreeOrders());
         }
 
         private IEnumerable<Order> GetFreeOrders()
         {
-            var orderDtos = new List<OrderDto>();
-
             var command = new SqlCommand(
-                @"select Orders.Id,
-                         p1.Name as [Client name] ,
-                         p1.Surname as [Client surname],
-						 Phones.Number as [Phone],
-                         Cars.Model,
-						 Cars.Year,
-						 Cars.Number,
-                         Orders.StartDate,
-                         Orders.FinishDate,
-                         Orders.Price,
-						 Description
-                from Orders
-                inner join Cars on(Orders.CarId = Cars.Id)
-                inner join Clients on(Orders.ClientId = Clients.Id)
-                inner join Persons p1 on(Clients.PersonId = p1.Id)
+                @"select *
+                from ExpandedOrders
+                where [Mechanic Name] is null and [Mechanic surname] is null",
+                Connection
+            );
 
-                inner join Phones on(Clients.PhoneId = Phones.Id)
-                where MechanicId is null",
-            Connection);
+            IEnumerable<OrderDto> ordersDtos = GetOrderDtos(command);
 
-            try
-            {
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var orderDto = new OrderDto
-                        {
-                            Id = (int)reader["Id"],
-                            Client = new Client(new Person(reader["Client name"].ToString(), reader["Client surname"].ToString()), reader["Phone"].ToString()),
-                            Car = new Car(reader["Model"].ToString(), Convert.ToInt16(reader["Year"]), reader["Number"].ToString()),
-                            StartDate = (DateTime)reader["StartDate"],
-                            Description = reader["Description"].ToString()
-                        };
-
-                        
-
-                        string finishDate = reader["FinishDate"].ToString();
-                        if (finishDate != string.Empty)
-                        {
-                            orderDto.FinishDate = DateTime.Parse(finishDate);
-                        }
-
-                        string price = reader["Price"].ToString();
-                        if (price != string.Empty)
-                        {
-                            orderDto.Price = double.Parse(price);
-                        }
-
-                        orderDtos.Add(orderDto);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw new DataException(e.Message);
-            }
-
-            var orders = new List<Order>();
-
-            foreach (OrderDto orderDto in orderDtos)
-            {
-                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
-                {
-                    Mechanic = orderDto.Mechanic,
-                    StartDate = orderDto.StartDate,
-                    FinishDate = orderDto.FinishDate,
-                    Price = orderDto.Price
-                };
-                orders.Add(order);
-            }
-
-            return orders;
+            return GetOrders(ordersDtos);
         }
 
         public async Task<IEnumerable<Person>> GetMechanicsAsync()
         {
-            return await Task.Run(()=>GetMechanics());
+            return await Task.Run(() => GetMechanics());
         }
 
         private IEnumerable<Person> GetMechanics()
@@ -399,8 +220,9 @@ namespace CarRepairShop.Data.SqlClient
 
             var command = new SqlCommand(
                @"select Mechanics.id, Name, Surname
-from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
-           Connection);
+                from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
+               Connection
+            );
 
             try
             {
@@ -438,13 +260,13 @@ from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
             await Task.Run(() =>
             {
                 var command = new SqlCommand(
-              $@"update Orders
-                set MechanicId = {mechanicId}
-                where id = {orderId};",
-              Connection
-          );
+                    $@"update Orders
+                    set MechanicId = {mechanicId}
+                    where id = {orderId}",
+                    Connection
+                );
                 command.ExecuteScalar();
-            }); 
+            });
         }
 
         public async Task SetPriceAsync(int orderId, double price)
@@ -452,11 +274,11 @@ from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
             await Task.Run(() =>
             {
                 var command = new SqlCommand(
-              $@"update Orders
-                set Price = {price}
-                where id = {orderId};",
-              Connection
-          );
+                    $@"update Orders
+                    set Price = {price}
+                    where id = {orderId}",
+                    Connection
+                );
                 command.ExecuteScalar();
             });
         }
@@ -468,32 +290,54 @@ from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
 
         public IEnumerable<Order> GetUnompleteOrders()
         {
-            var orderDtos = new List<OrderDto>();
-
             var command = new SqlCommand(
-                @"select Orders.Id,
-                         p1.Name as [Client name] ,
-                         p1.Surname as [Client surname],
-						 Phones.Number as [Phone],
-                         Cars.Model,
-						 Cars.Year,
-						 Cars.Number,
-                         Orders.StartDate,
-                         Orders.FinishDate,
-                         p2.Name as [Mechanic name],
-                         p2.Surname as [Mechanic surname],
-                         Orders.Price,
-						 Description
-                from Orders
-                inner join Cars on (Orders.CarId = Cars.Id)
-                inner join Clients on (Orders.ClientId = Clients.Id)
-                inner join Persons p1 on (Clients.PersonId = p1.Id)
-				inner join Phones  on (Clients.PhoneId = Phones.Id)
-                left join Mechanics on (Orders.MechanicId = Mechanics.Id)
-                left join Persons p2 on (Mechanics.PersonId = p2.Id)
-				where FinishDate is null",
-            Connection);
+                @"select *
+                from ExpandedOrders
+                where FinishDate is null",
+                Connection
+            );
 
+            IEnumerable<OrderDto> ordersDtos = GetOrderDtos(command);
+
+            return GetOrders(ordersDtos);
+        }
+
+        public async Task CompleteOrderAsync(int orderId, DateTime finishDate)
+        {
+            await Task.Run(() =>
+            {
+                var command = new SqlCommand(
+                    $@"update Orders
+                    set FinishDate = N'{finishDate}'
+                    where id = {orderId};",
+                    Connection
+                );
+                command.ExecuteScalar();
+            });
+        }
+
+        private IEnumerable<Order> GetOrders(IEnumerable<OrderDto> orderDtos)
+        {
+            var orders = new List<Order>();
+
+            foreach (OrderDto orderDto in orderDtos)
+            {
+                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
+                {
+                    Mechanic = orderDto.Mechanic,
+                    StartDate = orderDto.StartDate,
+                    FinishDate = orderDto.FinishDate,
+                    Price = orderDto.Price
+                };
+                orders.Add(order);
+            }
+
+            return orders;
+        }
+
+        private IEnumerable<OrderDto> GetOrderDtos(SqlCommand command)
+        {
+            var orderDtos = new List<OrderDto>();
             try
             {
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -530,42 +374,13 @@ from Mechanics inner join Persons on (Mechanics.PersonId = Persons.Id)",
 
                         orderDtos.Add(orderDto);
                     }
+                    return orderDtos;
                 }
             }
             catch (Exception e)
             {
                 throw new DataException(e.Message);
             }
-
-            var orders = new List<Order>();
-
-            foreach (OrderDto orderDto in orderDtos)
-            {
-                Order order = new Order(orderDto.Id, orderDto.Client, orderDto.Car, orderDto.Description)
-                {
-                    Mechanic = orderDto.Mechanic,
-                    StartDate = orderDto.StartDate,
-                    FinishDate = orderDto.FinishDate,
-                    Price = orderDto.Price
-                };
-                orders.Add(order);
-            }
-
-            return orders;
-        }
-
-        public async Task CompleteOrderAsync(int orderId, DateTime finishDate)
-        {
-            await Task.Run(() =>
-            {
-                var command = new SqlCommand(
-              $@"update Orders
-                set FinishDate = N'{finishDate}'
-                where id = {orderId};",
-              Connection
-          );
-                command.ExecuteScalar();
-            });
         }
     }
 }
