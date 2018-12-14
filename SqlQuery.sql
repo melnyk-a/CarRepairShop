@@ -9,30 +9,6 @@ from  Orders
 where Orders.MechanicId is null;
 go
 
-create or alter view ExpandedOrders
-as
-select Orders.Id,
-                         p1.Name as [Client name] ,
-                         p1.Surname as [Client surname],
-						 Phones.Number as [Phone],
-                         Cars.Model,
-						 Cars.Year,
-						 Cars.Number,
-                         Orders.StartDate,
-                         Orders.FinishDate,
-                         p2.Name as [Mechanic name],
-                         p2.Surname as [Mechanic surname],
-                         Orders.Price,
-						 Description
-                from Orders
-                inner join Cars on (Orders.CarId = Cars.Id)
-                inner join Clients on (Orders.ClientId = Clients.Id)
-                inner join Persons p1 on (Clients.PersonId = p1.Id)
-				inner join Phones  on (Clients.PhoneId = Phones.Id)
-                left join Mechanics on (Orders.MechanicId = Mechanics.Id)
-                left join Persons p2 on (Mechanics.PersonId = p2.Id);
-go
-
 select StartDate, 
 		case when [Mechanic name] is null then '-' else [Mechanic name] end as [Mechanic name], 
 		[Client name],
