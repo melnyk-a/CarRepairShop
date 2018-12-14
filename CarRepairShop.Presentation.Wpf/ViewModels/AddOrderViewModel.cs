@@ -118,8 +118,10 @@ namespace CarRepairShop.Presentation.Wpf.ViewModels
                 try
                 {
                     await orderManager.AddOrderAync(order);
-                    TooltipMessage = new TooltipMessage($"Order for client {name} {surname} is successfully added.", MessageStatus.Successful);
+
+                    string clientName = $"{name} {surname}";
                     Refresh();
+                    TooltipMessage = new TooltipMessage($"Order for client {clientName} is successfully added.", MessageStatus.Successful);
                 }
                 catch (DomainException e)
                 {
